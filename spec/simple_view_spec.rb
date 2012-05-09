@@ -37,15 +37,13 @@ describe "SimpleView" do
   end
   
   describe "#button" do
-      it "should create UIButton" do
-        button = @base_view.button
-        button.class.should == UIButton
-        button.buttonType.should == UIButtonTypeRoundedRect
-      end
+    it "should create UIButton" do
+      button = @base_view.button
+      button.class.should == UIRoundedRectButton
+    end
 
-      it "should create UIButton with style" do
-        button = @base_view.button(UIButtonTypeDetailDisclosure)
-        button.buttonType.should == UIButtonTypeDetailDisclosure
-      end
+    it "should create UIButton with style" do
+      @base_view.button(UIButtonTypeDetailDisclosure).buttonType.should == UIButtonTypeDetailDisclosure
+    end
   end
 end
