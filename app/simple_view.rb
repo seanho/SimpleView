@@ -68,4 +68,60 @@ module SimpleView
   def scroll_view(options = {}, &block)
     create_view(UIScrollView, options, &block)
   end
+  
+  def search_bar(options = {}, &block)
+    create_view(UISearchBar, options, &block)
+  end
+  
+  def segmented_control(items = [], options = {}, &block)
+    view = UISegmentedControl.alloc.initWithItems(items)
+    initialize_view(view, options, &block)
+  end
+  
+  def slider(options = {}, &block)
+    view = UISlider.alloc.init
+    initialize_view(view, options, &block)
+  end
+  
+  def stepper(options = {}, &block)
+    view = UIStepper.alloc.init
+    initialize_view(view, options, &block)
+  end
+  
+  def switch(options = {}, &block)
+    view = UISwitch.alloc.init
+    initialize_view(view, options, &block)
+  end
+  
+  def tab_bar(options = {}, &block)
+    create_view(UITabBar, options, &block)
+  end
+  
+  def table_view(style = UITableViewStylePlain, options = {}, &block)
+    view = UITableView.alloc.initWithFrame(CGRectZero, style: style)
+    initialize_view(view, options, &block)
+  end
+  
+  def table_view_cell(style = UITableViewCellStyleDefault, reuseIdentifier = nil, options = {}, &block)
+    view = UITableViewCell.alloc.initWithStyle(style, reuseIdentifier: reuseIdentifier)
+    initialize_view(view, options, &block)
+  end
+  
+  def text_field(options = {}, &block)
+    view = UITextField.alloc.init
+    initialize_view(view, options, &block)
+  end
+  
+  def text_view(options = {}, &block)
+    create_view(UITextView, options, &block)
+  end
+  
+  def toolbar(options = {}, &block)
+    view = UIToolbar.alloc.init
+    initialize_view(view, options, &block)
+  end
+  
+  def web_view(options = {}, &block)
+    create_view(UIWebView, options, &block)
+  end
 end

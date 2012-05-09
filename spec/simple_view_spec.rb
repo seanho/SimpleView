@@ -100,7 +100,7 @@ describe "SimpleView" do
     end
     
     it "should create UIProgressView with options" do
-      @base_view.progress_view(progressTintColor: UIColor.redColor).progressTintColor.should == UIColor.redColor
+      @base_view.progress_view(UIProgressViewStyleDefault, progressTintColor: UIColor.redColor).progressTintColor.should == UIColor.redColor
     end
   end
   
@@ -111,6 +111,135 @@ describe "SimpleView" do
     
     it "should create UIScrollView with options" do
       @base_view.scroll_view(contentOffset: CGPointMake(1, 1)).contentOffset.should == CGPointMake(1, 1)
+    end
+  end
+  
+  describe "SimpleView#search_bar" do
+    it "should create UISearchBar" do
+      @base_view.search_bar.class.should == UISearchBar
+    end
+    
+    it "should create UISearchBar with options" do
+      @base_view.search_bar(barStyle: UIBarStyleBlack).barStyle.should == UIBarStyleBlack
+    end
+  end
+  
+  describe "SimpleView#segmented_control" do
+    it "should create UISegmentedControl" do
+      @base_view.segmented_control.class.should == UISegmentedControl
+    end
+    
+    it "should create UISegmentedControl with items" do
+      items = ["ABC"]
+      @base_view.segmented_control(items).numberOfSegments.should == 1
+    end
+    
+    it "should create UISegmentedControl with options" do
+      @base_view.segmented_control([], tintColor: UIColor.redColor).tintColor.should == UIColor.redColor
+    end
+  end
+  
+  describe "SimpleView#slider" do
+    it "should create UISlider" do
+      @base_view.slider.class.should == UISlider
+    end
+    
+    it "should create UISlider with options" do
+      @base_view.slider(minimumValue: 1.0).minimumValue.should == 1.0
+    end
+  end
+  
+  describe "SimpleView#stepper" do
+    it "should create UIStepper" do
+      @base_view.stepper.class.should == UIStepper
+    end
+    
+    it "should create UIStepper with options" do
+      @base_view.stepper(minimumValue: 1.0).minimumValue.should == 1.0
+    end
+  end
+  
+  describe "SimpleView#switch" do
+    it "should create UISwitch" do
+      @base_view.switch.class.should == UISwitch
+    end
+    
+    it "should create UISwitch with options" do
+      @base_view.switch(on: true).on?.should.be.true
+    end
+  end
+  
+  describe "SimpleView#tab_bar" do
+    it "should create UITabBar" do
+      @base_view.tab_bar.class.should == UITabBar
+    end
+    
+    it "should create UITabBar with options" do
+      @base_view.tab_bar(tintColor: UIColor.blueColor).tintColor.should == UIColor.blueColor
+    end
+  end
+  
+  describe "SimpleView#table_view" do
+    it "should create UITableView" do
+      @base_view.table_view.class.should == UITableView
+    end
+    
+    it "should create UITableView with style" do
+      @base_view.table_view(UITableViewStyleGrouped).style.should == UITableViewStyleGrouped
+    end
+    
+    it "should create UITableView with options" do
+      @base_view.table_view(UITableViewStylePlain, rowHeight: 60).rowHeight.should == 60
+    end
+  end
+  
+  describe "SimpleView#table_view_cell" do
+    it "should create UITableViewCell" do
+      @base_view.table_view_cell.class.should == UITableViewCell
+    end
+    
+    it "should create UITableViewCell with options" do
+      @base_view.table_view_cell(UITableViewCellStyleDefault, "", selectionStyle: UITableViewCellSelectionStyleGray).selectionStyle.should == UITableViewCellSelectionStyleGray
+    end
+  end
+  
+  describe "SimpleView#text_field" do
+    it "should create UITextField" do
+      @base_view.text_field.class.should == UITextField
+    end
+    
+    it "should create UITextField with options" do
+      @base_view.text_field(textAlignment: UITextAlignmentRight).textAlignment.should == UITextAlignmentRight
+    end
+  end
+  
+  describe "SimpleView#text_view" do
+    it "should create UITextView" do
+      @base_view.text_view.class.should == UITextView
+    end
+    
+    it "should create UITextView with options" do
+      @base_view.text_view(textAlignment: UITextAlignmentRight).textAlignment.should == UITextAlignmentRight
+    end
+  end
+  
+  describe "SimpleView#toolbar" do
+    it "should create UIToolbar" do
+      @base_view.toolbar.class.should == UIToolbar
+    end
+    
+    it "should create UIToolbar with options" do
+      @base_view.toolbar(barStyle: UIBarStyleBlack).barStyle.should == UIBarStyleBlack
+    end
+  end
+  
+  describe "SimpleView#web_view" do
+    it "should create UIWebView" do
+      @base_view.web_view.class.should == UIWebView
+    end
+    
+    it "should create UIWebView with options" do
+      @base_view.web_view(allowsInlineMediaPlayback: true).allowsInlineMediaPlayback.should.be.true
     end
   end
 end
