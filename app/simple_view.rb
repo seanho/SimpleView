@@ -8,18 +8,27 @@ module SimpleView
     UIOffset            => Proc.new {|v| NSValue.valueWithUIOffset(v) }
   }
 
-  def initialize_view(view, options = {})
+  def initialize_view(view, options = {}, &block)
     unless options.nil?
       options.each do |k,v|
         options[k] = @@structs_map[v.class].call(v) if @@structs_map.has_key?(v.class)
       end
       view.setValuesForKeysWithDictionary(options)
     end
+    if block_given?
+      block.call(view)
+    end
     self.addSubview(view) if self.is_a?(UIView)
     view
   end
+  private :initialize_view
+  
+  def create_view(klass, options = {}, &block)
+    view = klass.alloc.initWithFrame(CGRectZero)
+    initialize_view(view, options, &block)
+  end
 
-  def image_view(image = nil, highlighted_image = nil, options = {})
+  def image_view(image = nil, highlighted_image = nil, options = {}, &block)
     if image && highlighted_image
       view = UIImageView.alloc.initWithImage(image, highlightedImage:highlighted_image)
     elsif image
@@ -27,16 +36,15 @@ module SimpleView
     else
       view = UIImageView.alloc.initWithFrame(CGRectZero)
     end
-    initialize_view(view, options)
+    initialize_view(view, options, &block)
   end
   
-  def label(options = {})
-    view = UILabel.alloc.initWithFrame(CGRectZero)
-    initialize_view(view, options)
+  def label(options = {}, &block)
+    create_view(UILabel, options, &block)
   end
   
-  def button(button_type = UIButtonTypeRoundedRect, options = {})
+  def button(button_type = UIButtonTypeRoundedRect, options = {}, &block)
     view = UIButton.buttonWithType(button_type)
-    initialize_view(view, options)
+    initialize_view(view, options, &block)
   end
 end

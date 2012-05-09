@@ -7,6 +7,19 @@ describe "SimpleView" do
     @base_view = DummyView.new
   end
   
+  describe "#create_view" do
+    it "should create view by class" do
+      @base_view.create_view(UILabel).class.should == UILabel
+    end
+    
+    it "should create view and execute block" do
+      view = @base_view.create_view(UILabel) do |label|
+        label.text = "fun"
+      end
+      view.text.should == "fun"
+    end
+  end
+  
   describe "#label" do
     it "should create UILabel" do
       @base_view.label.class.should == UILabel
