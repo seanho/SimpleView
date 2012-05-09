@@ -34,4 +34,9 @@ module SimpleView
     view = UILabel.alloc.initWithFrame(CGRectZero)
     initialize_view(view, options)
   end
+  
+  def button(button_type = UIButtonTypeRoundedRect, options = {})
+    view = UIButton.buttonWithType(button_type)
+    initialize_view(view, options)
+  end
 end

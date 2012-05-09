@@ -18,7 +18,7 @@ describe "SimpleView" do
   end
   
   describe "#image_view" do
-    it "should create UIImageView without name" do
+    it "should create UIImageView" do
       @base_view.image_view.class.should == UIImageView
     end
     
@@ -36,4 +36,16 @@ describe "SimpleView" do
     end
   end
   
+  describe "#button" do
+      it "should create UIButton" do
+        button = @base_view.button
+        button.class.should == UIButton
+        button.buttonType.should == UIButtonTypeRoundedRect
+      end
+
+      it "should create UIButton with style" do
+        button = @base_view.button(UIButtonTypeDetailDisclosure)
+        button.buttonType.should == UIButtonTypeDetailDisclosure
+      end
+  end
 end
