@@ -16,12 +16,8 @@ Or refer to the blog post [Using 3rd Party Ruby Library in RubyMotion](http://re
 ````ruby
 def viewDidLoad
   view.setup do
-    label width: 200, height: 20, 
-          text: "Choose your lucky word",
-          color: UIColor.darkGrayColor
-
-    image_view top: 50, left: 50,
-               image:UIImage.imageName("sample.jpg")
+    label width: 200, height: 20, text: "Choose your lucky word", color: UIColor.darkGrayColor
+    image_view top: 50, left: 50, image:UIImage.imageName("sample.jpg")
   end
 end
 ````
