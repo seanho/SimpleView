@@ -8,6 +8,32 @@ describe "UIViewExtensions" do
     view.name.should == "view_name"
   end
   
+  describe "dimensions" do
+    it "should set x" do
+      view = UIView.alloc.initWithFrame(CGRectZero)
+      view.left = 10
+      view.left.should == 10
+    end
+    
+    it "should set y" do
+      view = UIView.alloc.initWithFrame(CGRectZero)
+      view.top = 11
+      view.top.should == 11
+    end
+    
+    it "should set width" do
+      view = UIView.alloc.initWithFrame(CGRectZero)
+      view.width = 12
+      view.width.should == 12
+    end
+    
+    it "should set height" do
+      view = UIView.alloc.initWithFrame(CGRectZero)
+      view.height = 13
+      view.height.should == 13
+    end
+  end
+  
   describe "UIViewExtensions#find" do
     before do
       @parent_view = UIView.alloc.initWithFrame(CGRectZero)
