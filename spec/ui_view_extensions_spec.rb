@@ -8,7 +8,7 @@ describe "UIViewExtensions" do
     view.name.should == "view_name"
   end
   
-  describe "#find" do
+  describe "UIViewExtensions#find" do
     before do
       @parent_view = UIView.alloc.initWithFrame(CGRectZero)
       @child_view = UIView.alloc.initWithFrame(CGRectZero)
@@ -29,7 +29,7 @@ describe "UIViewExtensions" do
     end
   end
   
-  describe "#setup" do
+  describe "UIViewExtensions#setup" do
     it "should execute the block within view object scope" do
       view = UIView.alloc.initWithFrame(CGRectZero)
       view.setup do

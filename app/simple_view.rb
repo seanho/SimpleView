@@ -28,6 +28,15 @@ module SimpleView
     initialize_view(view, options, &block)
   end
 
+  def button(button_type = UIButtonTypeRoundedRect, options = {}, &block)
+    view = UIButton.buttonWithType(button_type)
+    initialize_view(view, options, &block)
+  end
+
+  def date_picker(options = {}, &block)
+    create_view(UIDatePicker, options, &block)
+  end
+
   def image_view(image = nil, highlighted_image = nil, options = {}, &block)
     if image && highlighted_image
       view = UIImageView.alloc.initWithImage(image, highlightedImage:highlighted_image)
@@ -42,9 +51,21 @@ module SimpleView
   def label(options = {}, &block)
     create_view(UILabel, options, &block)
   end
+
+  def page_control(options = {}, &block)
+    create_view(UIPageControl, options, &block)
+  end
   
-  def button(button_type = UIButtonTypeRoundedRect, options = {}, &block)
-    view = UIButton.buttonWithType(button_type)
+  def picker_view(options = {}, &block)
+    create_view(UIPickerView, options, &block)
+  end
+  
+  def progress_view(style = UIProgressViewStyleDefault, options = {}, &block)
+    view = UIProgressView.alloc.initWithProgressViewStyle(style)
     initialize_view(view, options, &block)
+  end
+  
+  def scroll_view(options = {}, &block)
+    create_view(UIScrollView, options, &block)
   end
 end
