@@ -65,6 +65,11 @@ module SimpleView
     initialize_view(view, options, &block)
   end
   
+  def activity_view(style = UIActivityIndicatorViewStyleWhiteLarge, options = {}, &block)
+    view = UIActivityIndicatorView.alloc.initWithActivityIndicatorStyle(style)
+    initialize_view(view, options, &block)
+  end
+
   def scroll_view(options = {}, &block)
     create_view(UIScrollView, options, &block)
   end
