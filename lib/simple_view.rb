@@ -41,6 +41,7 @@ module UI
       end
       
       @view.addSubview(subview) unless @view.nil?
+      subview.invalidate_size
       subview
     end
 

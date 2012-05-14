@@ -6,9 +6,21 @@ class SimpleViewController < UIViewController
     UI::Layout.setup(view, controller: self) do
       @view.backgroundColor = UIColor.whiteColor
       
-      label frame: CGRectMake(10, 10, 200, 20), text: "Choose your lucky word", color: UIColor.darkGrayColor
-      table_view top: 40, width: 320, height: 300, delegate: @controller, dataSource: @controller
-      segmented_control items: ["High", "Medium", "Low"], name: "lucky_segment", top: 330, left: 10, right: 10
+      label frame: CGRectMake(10, 10, 200, 20), 
+            text: "Choose your lucky word", 
+            color: UIColor.darkGrayColor
+      table_view top: 40, 
+                 left: 0, 
+                 right: 0,
+                 height: 300, 
+                 delegate: @controller, 
+                 dataSource: @controller
+      segmented_control items: ["High", "Medium", "Low"], 
+                        name: "lucky_segment", 
+                        left: 10, 
+                        right: 10, 
+                        bottom: 10, 
+                        anchors: [:left, :right, :bottom]
     end
   end
   
