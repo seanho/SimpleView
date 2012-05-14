@@ -15,9 +15,9 @@ Or refer to the blog post [Using 3rd Party Ruby Library in RubyMotion](http://re
 
 ````ruby
 def viewDidLoad
-  view.setup do
+  UI::Layout.setup(view) do
     label width: 200, height: 20, text: "Choose your lucky word", color: UIColor.darkGrayColor
-    image_view top: 50, left: 50, image:UIImage.imageName("sample.jpg")
+    image_view top: 50, left: 50, right: 50, image:UIImage.imageName("sample.jpg")
   end
 end
 ````
@@ -28,21 +28,15 @@ Hash parameters works only on KVC-compliant properties. To configure view object
 
 ````ruby
 def viewDidLoad
-  view.setup do
-    button do |btn|
-      btn.setTitle("Submit" forState: UIControlStateNormal)
+  UI::Layout.setup(view) do
+    button do
+      @view.setTitle("Submit" forState: UIControlStateNormal)
     end
   end
 end
 ````
 
-Currently support 4 property helpers (more in the future)
-- top
-- left
-- width
-- height
-
-### Supported UIViews
+### UIKit support
 - UIButton via `button`
 - UIDatePicker via `date_picker`
 - UIImageView via `image_view`
@@ -64,13 +58,45 @@ Currently support 4 property helpers (more in the future)
 - UIToolbar via `toolbar`
 - UIWebView via `web_view`
 
+### Custom view support
+
+````ruby
+def viewDidLoad
+  UI::Layout.setup(view) do
+    add CustomViewClass, name: "custom_view"...
+  end
+end
+````
+
+### View anchoring
+
+````ruby
+def viewDidLoad
+  UI::Layout.setup(view) do
+    toolbar bottom: 10, left: 10, right: 10, anchors: [:left, :right, :bottom]
+  end
+end
+````
+
+### Passing in locals
+
+Hash parameters will automatically turns into instance variable within the block
+
+````ruby
+def viewDidLoad
+  UI::Layout.setup(view, controller: self) do
+    table_view delegate: @controller, dataSource: @controller
+  end
+end
+````
+
 ### View tagging with string
 
 No need to declare ivar, no need to use integer tag, just name your view and access it by the name.
 
 ````ruby
 def viewDidLoad
-  view.setup do
+  UI::Layout.setup(view) do
     label name: "price_label" # give a name to the label
   end
 end
