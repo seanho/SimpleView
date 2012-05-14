@@ -9,16 +9,32 @@ describe "UIViewExtensions" do
   end
   
   describe "dimensions" do
-    it "should set x" do
+    it "should set left" do
       view = UIView.alloc.initWithFrame(CGRectZero)
       view.left = 10
       view.left.should == 10
     end
     
-    it "should set y" do
+    it "should set right" do
+      superview = UIView.alloc.initWithFrame(CGRectMake(0, 0, 100, 100))
+      view = UIView.alloc.initWithFrame(CGRectZero)
+      superview.addSubview(view)
+      view.right = 10
+      view.right.should == 10
+    end
+    
+    it "should set top" do
       view = UIView.alloc.initWithFrame(CGRectZero)
       view.top = 11
       view.top.should == 11
+    end
+    
+    it "should set bottom" do
+      superview = UIView.alloc.initWithFrame(CGRectMake(0, 0, 100, 100))
+      view = UIView.alloc.initWithFrame(CGRectZero)
+      superview.addSubview(view)
+      view.bottom = 10
+      view.bottom.should == 10
     end
     
     it "should set width" do
@@ -52,16 +68,6 @@ describe "UIViewExtensions" do
     
     it "should return nil if subview cannot be found" do
       @parent_view.find("nemo").should == @child_view
-    end
-  end
-  
-  describe "UIViewExtensions#setup" do
-    it "should execute the block within view object scope" do
-      view = UIView.alloc.initWithFrame(CGRectZero)
-      view.setup do
-        self.frame = CGRectMake(0, 0, 10, 10)
-      end
-      view.frame.should == CGRectMake(0, 0, 10, 10)
     end
   end
 end

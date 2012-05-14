@@ -3,19 +3,12 @@ class SimpleViewController < UIViewController
     self.title = "SimpleView Demo"
     @items = ["TextMate", "Vim", "TextEdit", "Notepad", "Xcode"]
     
-    controller = self
-    view.setup do
-      self.backgroundColor = UIColor.whiteColor
+    UI::Layout.setup(view, controller: self) do
+      @view.backgroundColor = UIColor.whiteColor
       
-      label frame: CGRectMake(10, 10, 200, 20), 
-            text: "Choose your lucky word",
-            color: UIColor.darkGrayColor
-      
-      table_view UITableViewStylePlain, top: 40, width: 320, height: 300, 
-                                        delegate: controller, 
-                                        dataSource: controller
-      
-      segmented_control ["High", "Medium", "Low"], name: "lucky_segment", top: 330, left: 10, width: 300
+      label frame: CGRectMake(10, 10, 200, 20), text: "Choose your lucky word", color: UIColor.darkGrayColor
+      table_view top: 40, width: 320, height: 300, delegate: @controller, dataSource: @controller
+      segmented_control items: ["High", "Medium", "Low"], name: "lucky_segment", top: 330, left: 10, right: 10
     end
   end
   

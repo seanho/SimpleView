@@ -1,19 +1,12 @@
 class UIView
-  include SimpleView
-  
   attr_accessor :name
-  #attr_reader :left, :top, :width, :height
-  
+
   def find(name)
     subviews.each do |subview|
       return subview if subview.name == name
     end
   end
   alias_method :subview, :find
-  
-  def setup(&block)
-    self.instance_eval &block
-  end
   
   def left
     self.frame.origin.x
@@ -25,6 +18,20 @@ class UIView
     self.frame = f
   end
   
+  def right
+    if self.superview
+      self.superview.width - (self.left + self.width)
+    end
+  end
+  
+  def setRight(value)
+    if self.superview
+      f = self.frame
+      f.size.width = self.superview.width - value - f.origin.x
+      self.frame = f
+    end
+  end
+  
   def top
     self.frame.origin.y
   end
@@ -33,6 +40,20 @@ class UIView
     f = self.frame
     f.origin.y = value
     self.frame = f
+  end
+  
+  def bottom
+    if self.superview
+      self.superview.height - (self.top + self.height)
+    end
+  end
+  
+  def setBottom(value)
+    if self.superview
+      f = self.frame
+      f.size.height = self.superview.height - value - f.origin.y
+      self.frame = f
+    end
   end
   
   def width
