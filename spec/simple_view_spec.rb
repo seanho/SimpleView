@@ -5,6 +5,7 @@ describe "UI" do
       controller_a = Object.new
       controller_b = Object.new
       layout = UI::Layout.new(view, controller_a: controller_a, controller_b: controller_b)
+      puts layout.view.class
       layout.view.should == view
       layout.controller_a.should == controller_a
       layout.controller_b.should == controller_b

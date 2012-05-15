@@ -32,11 +32,25 @@ module UI
       @view.setValue(value, forKey: key)
     end
     
-    def setBackgroundColor(value)
-      if value.is_a?(String)
-        @view.backgroundColor = UIColor.from_html(value)
+    def setBackgroundColor(color)
+      @view.backgroundColor = safe_color(color)
+    end
+    
+    protected
+    
+    def safe_color(color)
+      if color.is_a?(String)
+        UIColor.from_html(color)
       else
-        @view.backgroundColor = value
+        color
+      end
+    end
+    
+    def safe_image(image)
+      if image.is_a?(String)
+        UIImage.imageNamed(image)
+      else
+        image
       end
     end
   end

@@ -25,5 +25,13 @@ module UI
       image = UIImage.imageNamed(image) if !image.nil? && image.is_a?(String)
       image
     end
+    
+    def setImage(image)
+      @view.image = safe_image(image)
+    end
+    
+    def setHighlightedImage(image)
+      @view.highlightedImage = safe_image(image)
+    end
   end
 end

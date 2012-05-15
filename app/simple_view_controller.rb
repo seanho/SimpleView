@@ -4,19 +4,19 @@ class SimpleViewController < UIViewController
     @items = ["TextMate", "Vim", "TextEdit", "Notepad", "Xcode"]
     
     UI::Layout.setup(view, controller: self) do
-      view width: 20, height: 20, backgroundColor: "#000", anchors: [:top, :left, :bottom, :right]
+      rect width: 20, height: 20, backgroundColor: "#000", anchors: [:top, :left, :bottom, :right]
                         
-      view width: 20, height: 20, backgroundColor: "#990000", anchors: [:top, :left]
-      view width: 20, height: 20, backgroundColor: "#993300", anchors: [:top]
-      view width: 20, height: 20, backgroundColor: "#CC9900", anchors: [:top, :right]
+      rect width: 20, height: 20, backgroundColor: "#990000", anchors: [:top, :left]
+      rect width: 20, height: 20, backgroundColor: "#993300", anchors: [:top]
+      rect width: 20, height: 20, backgroundColor: "#CC9900", anchors: [:top, :right]
       
-      view width: 20, height: 20, backgroundColor: "#006600", anchors: [:left]
-      view width: 20, height: 20, backgroundColor: "#336666", anchors: []
-      view width: 20, height: 20, backgroundColor: "#0033FF", anchors: [:right]
+      rect width: 20, height: 20, backgroundColor: "#006600", anchors: [:left]
+      rect width: 20, height: 20, backgroundColor: "#336666", anchors: []
+      rect width: 20, height: 20, backgroundColor: "#0033FF", anchors: [:right]
       
-      view width: 20, height: 20, backgroundColor: "#000099", anchors: [:bottom, :left]
-      view width: 20, height: 20, backgroundColor: "#660099", anchors: [:bottom]
-      view width: 20, height: 20, backgroundColor: "#990066", anchors: [:bottom, :right]
+      rect width: 20, height: 20, backgroundColor: "#000099", anchors: [:bottom, :left]
+      rect width: 20, height: 20, backgroundColor: "#660099", anchors: [:bottom]
+      rect width: 20, height: 20, backgroundColor: "#990066", anchors: [:bottom, :right]
     end
   end
   

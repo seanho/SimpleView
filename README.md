@@ -18,6 +18,7 @@ def viewDidLoad
   UI::Layout.setup(view) do
     label width: 200, height: 20, text: "Choose your lucky word", color: UIColor.darkGrayColor
     image_view top: 50, left: 50, right: 50, image: "sample.jpg"
+    toolbar anchors[:bottom]
   end
 end
 ````
@@ -57,7 +58,7 @@ end
 - UITextField via `text_field`
 - UITextView via `text_view`
 - UIToolbar via `toolbar`
-- UIView via `view`
+- UIView via `rect`
 - UIWebView via `web_view`
 
 ### Custom view support

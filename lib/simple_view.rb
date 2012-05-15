@@ -37,6 +37,7 @@ module UI
     def page_control(options = {}, &block)        add(UIPageControl, options, &block); end
     def picker_view(options = {}, &block)         add(UIPickerView, options, &block); end
     def progress_view(options = {}, &block)       add(UIProgressView, options, &block); end
+    def rect(options = {}, &block)                add(UIView, options, &block); end
     def scroll_view(options = {}, &block)         add(UIScrollView, options, &block); end
     def search_bar(options = {}, &block)          add(UISearchBar, options, &block); end
     def segmented_control(options = {}, &block)   add(UISegmentedControl, options, &block); end
@@ -49,7 +50,6 @@ module UI
     def text_field(options = {}, &block)          add(UITextField, options, &block); end
     def text_view(options = {}, &block)           add(UITextView, options, &block); end
     def toolbar(options = {}, &block)             add(UIToolbar, options, &block); end
-    def view(options = {}, &block)                add(UIView, options, &block); end
     def web_view(options = {}, &block)            add(UIWebView, options, &block); end
   end
   
@@ -61,9 +61,13 @@ module UI
       UIButton                => UIButtonBuilder.new,
       UIImageView             => UIImageViewBuilder.new,
       UIProgressView          => UIProgressViewBuilder.new,
+      UISearchBar             => UISearchBarBuilder.new,
       UISegmentedControl      => UISegmentedControlBuilder.new,
+      UISlider                => UISliderBuilder.new,
+      UITabBar                => UITabBarBuilder.new,
       UITableView             => UITableViewBuilder.new,
-      UITableViewCell         => UITableViewCellBuilder.new
+      UITableViewCell         => UITableViewCellBuilder.new,
+      UIToolbar               => UIToolbarBuilder.new
     }
     
     def self.build(klass, options = {})
