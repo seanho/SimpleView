@@ -45,38 +45,40 @@ module UI
       subview
     end
 
-    def button(options = {}, &block)            add(UIButton, options, &block); end
-    def date_picker(options = {}, &block)       add(UIDatePicker, options, &block); end
-    def image_view(options = {}, &block)        add(UIImageView, options, &block); end
-    def label(options = {}, &block)             add(UILabel, options, &block); end
-    def page_control(options = {}, &block)      add(UIPageControl, options, &block); end
-    def picker_view(options = {}, &block)       add(UIPickerView, options, &block); end
-    def progress_view(options = {}, &block)     add(UIProgressView, options, &block); end
-    def scroll_view(options = {}, &block)       add(UIScrollView, options, &block); end
-    def search_bar(options = {}, &block)        add(UISearchBar, options, &block); end
-    def segmented_control(options = {}, &block) add(UISegmentedControl, options, &block); end
-    def slider(options = {}, &block)            add(UISlider, options, &block); end
-    def stepper(options = {}, &block)           add(UIStepper, options, &block); end
-    def switch(options = {}, &block)            add(UISwitch, options, &block); end
-    def tab_bar(options = {}, &block)           add(UITabBar, options, &block); end
-    def table_view(options = {}, &block)        add(UITableView, options, &block); end
-    def table_view_cell(options = {}, &block)   add(UITableViewCell, options, &block); end
-    def text_field(options = {}, &block)        add(UITextField, options, &block); end
-    def text_view(options = {}, &block)         add(UITextView, options, &block); end
-    def toolbar(options = {}, &block)           add(UIToolbar, options, &block); end
-    def web_view(options = {}, &block)          add(UIWebView, options, &block); end
+    def activity_indicator(options = {}, &block)  add(UIActivityIndicatorView, options, &block); end
+    def button(options = {}, &block)              add(UIButton, options, &block); end
+    def date_picker(options = {}, &block)         add(UIDatePicker, options, &block); end
+    def image_view(options = {}, &block)          add(UIImageView, options, &block); end
+    def label(options = {}, &block)               add(UILabel, options, &block); end
+    def page_control(options = {}, &block)        add(UIPageControl, options, &block); end
+    def picker_view(options = {}, &block)         add(UIPickerView, options, &block); end
+    def progress_view(options = {}, &block)       add(UIProgressView, options, &block); end
+    def scroll_view(options = {}, &block)         add(UIScrollView, options, &block); end
+    def search_bar(options = {}, &block)          add(UISearchBar, options, &block); end
+    def segmented_control(options = {}, &block)   add(UISegmentedControl, options, &block); end
+    def slider(options = {}, &block)              add(UISlider, options, &block); end
+    def stepper(options = {}, &block)             add(UIStepper, options, &block); end
+    def switch(options = {}, &block)              add(UISwitch, options, &block); end
+    def tab_bar(options = {}, &block)             add(UITabBar, options, &block); end
+    def table_view(options = {}, &block)          add(UITableView, options, &block); end
+    def table_view_cell(options = {}, &block)     add(UITableViewCell, options, &block); end
+    def text_field(options = {}, &block)          add(UITextField, options, &block); end
+    def text_view(options = {}, &block)           add(UITextView, options, &block); end
+    def toolbar(options = {}, &block)             add(UIToolbar, options, &block); end
+    def web_view(options = {}, &block)            add(UIWebView, options, &block); end
   end
   
   class ViewBuilder
     @@builders = {
-      UIView              => Proc.new {|klass, options| ViewBuilder.create_ui_view(klass, options) },
-      UIControl           => Proc.new {|klass, options| ViewBuilder.create_ui_control(klass, options) },
-      UIButton            => Proc.new {|klass, options| ViewBuilder.create_ui_button(klass, options) },
-      UIImageView         => Proc.new {|klass, options| ViewBuilder.create_ui_image_view(klass, options) },
-      UIProgressView      => Proc.new {|klass, options| ViewBuilder.create_ui_progress_view(klass, options) },
-      UISegmentedControl  => Proc.new {|klass, options| ViewBuilder.create_ui_segmented_control(klass, options) },
-      UITableView         => Proc.new {|klass, options| ViewBuilder.create_ui_table_view(klass, options) },
-      UITableViewCell     => Proc.new {|klass, options| ViewBuilder.create_ui_table_view_cell(klass, options) }
+      UIView                  => Proc.new {|klass, options| ViewBuilder.create_ui_view(klass, options) },
+      UIControl               => Proc.new {|klass, options| ViewBuilder.create_ui_control(klass, options) },
+      UIActivityIndicatorView => Proc.new {|klass, options| ViewBuilder.create_ui_activity_indicator_view(klass, options) },
+      UIButton                => Proc.new {|klass, options| ViewBuilder.create_ui_button(klass, options) },
+      UIImageView             => Proc.new {|klass, options| ViewBuilder.create_ui_image_view(klass, options) },
+      UIProgressView          => Proc.new {|klass, options| ViewBuilder.create_ui_progress_view(klass, options) },
+      UISegmentedControl      => Proc.new {|klass, options| ViewBuilder.create_ui_segmented_control(klass, options) },
+      UITableView             => Proc.new {|klass, options| ViewBuilder.create_ui_table_view(klass, options) },
+      UITableViewCell         => Proc.new {|klass, options| ViewBuilder.create_ui_table_view_cell(klass, options) }
     }
     
     def self.build(klass, options = {})
@@ -102,6 +104,11 @@ module UI
     
     def self.create_ui_control(klass, options = {})
       klass.alloc.init
+    end
+
+    def self.create_ui_activity_indicator_view(klass, options = {})
+      style = options.delete(:style) || UIActivityIndicatorViewStyleWhite
+      UIActivityIndicatorView.alloc.initWithActivityIndicatorStyle(style)
     end
     
     def self.create_ui_button(klass, options = {})

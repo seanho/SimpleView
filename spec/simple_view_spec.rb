@@ -145,6 +145,19 @@ describe "UI" do
       UI::ViewBuilder.build(UIControl).class.should == UIControl
     end
     
+    describe "UIActivityIndicatorView" do
+      it "should build UIActivityIndicatorView" do
+        view = UI::ViewBuilder.build(UIActivityIndicatorView)
+        view.class.should == UIActivityIndicatorView
+        view.activityIndicatorViewStyle.should == UIActivityIndicatorViewStyleWhite
+      end
+
+      it "should build UIActivityIndicatorView with style" do
+        view = UI::ViewBuilder.build(UIActivityIndicatorView, style: UIActivityIndicatorViewStyleGray)
+        view.activityIndicatorViewStyle.should == UIActivityIndicatorViewStyleGray
+      end
+    end
+    
     describe "UIButton" do
       it "should build UIButton" do
         button = UI::ViewBuilder.build(UIButton)
