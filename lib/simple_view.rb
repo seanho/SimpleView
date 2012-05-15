@@ -1,14 +1,5 @@
 module UI
   class Layout
-    STRUCTS_MAP = {
-      CGAffineTransform   => Proc.new {|v| NSValue.valueWithCGAffineTransform(v) },
-      CGPoint             => Proc.new {|v| NSValue.valueWithCGPoint(v) },
-      CGRect              => Proc.new {|v| NSValue.valueWithCGRect(v) },
-      CGSize              => Proc.new {|v| NSValue.valueWithCGSize(v) },
-      UIEdgeInsets        => Proc.new {|v| NSValue.valueWithUIEdgeInsets(v) },
-      UIOffset            => Proc.new {|v| NSValue.valueWithUIOffset(v) }
-    }
-    
     attr_accessor :view, :locals
     
     def self.setup(view = nil, locals = {}, &block)
@@ -27,13 +18,6 @@ module UI
     
     def add(klass, options = {}, &block)
       subview = ViewBuilder.build(klass, options)
-      
-      unless options.nil?
-        options.each do |k,v|
-          options[k] = STRUCTS_MAP[v.class].call(v) if STRUCTS_MAP.has_key?(v.class)
-        end
-        subview.setValuesForKeysWithDictionary(options)
-      end
       
       if block_given?
         child_layout = Layout.new(subview, @locals)
@@ -70,15 +54,15 @@ module UI
   
   class ViewBuilder
     @@builders = {
-      UIView                  => Proc.new {|klass, options| ViewBuilder.create_ui_view(klass, options) },
-      UIControl               => Proc.new {|klass, options| ViewBuilder.create_ui_control(klass, options) },
-      UIActivityIndicatorView => Proc.new {|klass, options| ViewBuilder.create_ui_activity_indicator_view(klass, options) },
-      UIButton                => Proc.new {|klass, options| ViewBuilder.create_ui_button(klass, options) },
-      UIImageView             => Proc.new {|klass, options| ViewBuilder.create_ui_image_view(klass, options) },
-      UIProgressView          => Proc.new {|klass, options| ViewBuilder.create_ui_progress_view(klass, options) },
-      UISegmentedControl      => Proc.new {|klass, options| ViewBuilder.create_ui_segmented_control(klass, options) },
-      UITableView             => Proc.new {|klass, options| ViewBuilder.create_ui_table_view(klass, options) },
-      UITableViewCell         => Proc.new {|klass, options| ViewBuilder.create_ui_table_view_cell(klass, options) }
+      UIView                  => UIViewBuilder.new,
+      UIControl               => UIControlBuilder.new,
+      UIActivityIndicatorView => UIActivityIndicatorViewBuilder.new,
+      UIButton                => UIButtonBuilder.new,
+      UIImageView             => UIImageViewBuilder.new,
+      UIProgressView          => UIProgressViewBuilder.new,
+      UISegmentedControl      => UISegmentedControlBuilder.new,
+      UITableView             => UITableViewBuilder.new,
+      UITableViewCell         => UITableViewCellBuilder.new
     }
     
     def self.build(klass, options = {})
@@ -89,63 +73,12 @@ module UI
       else
         builder = @@builders[UIView]
       end
-      builder.call(klass, options)
+      
+      builder.build(klass, options)
     end
     
-    def self.register(klass, proc)
-      @@builders[klass] = proc
-    end
-    
-    private
-    
-    def self.create_ui_view(klass, options = {})
-      klass.alloc.initWithFrame(CGRectZero)
-    end
-    
-    def self.create_ui_control(klass, options = {})
-      klass.alloc.init
-    end
-
-    def self.create_ui_activity_indicator_view(klass, options = {})
-      style = options.delete(:style) || UIActivityIndicatorViewStyleWhite
-      UIActivityIndicatorView.alloc.initWithActivityIndicatorStyle(style)
-    end
-    
-    def self.create_ui_button(klass, options = {})
-      button_type = options.delete(:buttonType) || UIButtonTypeRoundedRect
-      UIButton.buttonWithType(button_type)
-    end
-    
-    def self.create_ui_image_view(klass, options = {})
-      image = options.delete(:image)
-      highlighted_image = options.delete(:highlightedImage)
-      if image && highlighted_image
-        UIImageView.alloc.initWithImage(image, highlightedImage:highlighted_image)
-      elsif image
-        UIImageView.alloc.initWithImage(image)
-      else
-        UIImageView.alloc.initWithFrame(CGRectZero)
-      end
-    end
-    
-    def self.create_ui_progress_view(klass, options = {})
-      style = options.delete(:style) || UIProgressViewStyleDefault
-      UIProgressView.alloc.initWithProgressViewStyle(style)
-    end
-    
-    def self.create_ui_segmented_control(klass, options = {})
-      items = options.delete(:items) || []
-      UISegmentedControl.alloc.initWithItems(items)
-    end
-    
-    def self.create_ui_table_view(klass, options = {})
-      style = options.delete(:style) || UITableViewStylePlain
-      UITableView.alloc.initWithFrame(CGRectZero, style: style)
-    end
-    
-    def self.create_ui_table_view_cell(klass, options = {})
-      style = options.delete(:style) || UITableViewCellStyleDefault
-      UITableViewCell.alloc.initWithStyle(style, reuseIdentifier: options[:reuseIdentifier])
+    def self.register(klass, builder)
+      @@builders[klass] = builder
     end
   end
 end

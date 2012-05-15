@@ -17,7 +17,7 @@ Or refer to the blog post [Using 3rd Party Ruby Library in RubyMotion](http://re
 def viewDidLoad
   UI::Layout.setup(view) do
     label width: 200, height: 20, text: "Choose your lucky word", color: UIColor.darkGrayColor
-    image_view top: 50, left: 50, right: 50, image:UIImage.imageName("sample.jpg")
+    image_view top: 50, left: 50, right: 50, image: "sample.jpg"
   end
 end
 ````
@@ -37,6 +37,7 @@ end
 ````
 
 ### UIKit support
+- UIActivityIndicatorView via `activity_indicator`
 - UIButton via `button`
 - UIDatePicker via `date_picker`
 - UIImageView via `image_view`
@@ -61,20 +62,16 @@ end
 ### Custom view support
 
 ````ruby
-def viewDidLoad
-  UI::Layout.setup(view) do
-    add CustomViewClass, name: "custom_view"...
-  end
+UI::Layout.setup(view) do
+  add CustomViewClass, name: "custom_view"...
 end
 ````
 
 ### View anchoring
 
 ````ruby
-def viewDidLoad
-  UI::Layout.setup(view) do
-    toolbar bottom: 10, left: 10, right: 10, anchors: [:left, :right, :bottom]
-  end
+UI::Layout.setup(view) do
+  toolbar bottom: 10, left: 10, right: 10, anchors: [:left, :right, :bottom]
 end
 ````
 
