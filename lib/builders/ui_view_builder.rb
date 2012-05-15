@@ -31,5 +31,13 @@ module UI
     def setValue(value, forUndefinedKey:key)
       @view.setValue(value, forKey: key)
     end
+    
+    def setBackgroundColor(value)
+      if value.is_a?(String)
+        @view.backgroundColor = UIColor.from_html(value)
+      else
+        @view.backgroundColor = value
+      end
+    end
   end
 end

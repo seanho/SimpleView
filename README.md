@@ -57,6 +57,7 @@ end
 - UITextField via `text_field`
 - UITextView via `text_view`
 - UIToolbar via `toolbar`
+- UIView via `view`
 - UIWebView via `web_view`
 
 ### Custom view support
@@ -71,7 +72,7 @@ end
 
 ````ruby
 UI::Layout.setup(view) do
-  toolbar bottom: 10, left: 10, right: 10, anchors: [:left, :right, :bottom]
+  toolbar bottom: 10, left: 10, right: 10, anchors: [:bottom]
 end
 ````
 

@@ -14,10 +14,10 @@ class UIView
     max_height = superview ? superview.bounds.size.height : 0
     
     @anchors ||= [:top, :left]
+    anchor_top = @anchors.include?(:top)
+    anchor_left = @anchors.include?(:left)
     anchor_bottom = @anchors.include?(:bottom)
     anchor_right = @anchors.include?(:right)
-    anchor_top = anchor_bottom ? @anchors.include?(:top) : true
-    anchor_left = anchor_right ? @anchors.include?(:left) : true
     
     self.autoresizingMask |= UIViewAutoresizingFlexibleTopMargin unless anchor_top
     self.autoresizingMask |= UIViewAutoresizingFlexibleLeftMargin unless anchor_left
@@ -30,12 +30,16 @@ class UIView
       f.size.width = max_width - self.left - @right.to_i
     elsif anchor_right
       f.origin.x = max_width - self.width - @right.to_i
+    elsif !anchor_left && !anchor_right
+      f.origin.x = max_width / 2 - f.size.width / 2
     end
     
     if (anchor_top && anchor_bottom) || (anchor_top && !@bottom.nil?)
       f.size.height = max_height - self.top - @bottom.to_i
     elsif anchor_bottom
       f.origin.y = max_height - self.height - @bottom.to_i
+    elsif !anchor_top && !anchor_bottom
+      f.origin.y = max_height / 2 - f.size.height / 2
     end
     
     self.frame = f

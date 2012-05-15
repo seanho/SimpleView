@@ -49,6 +49,7 @@ module UI
     def text_field(options = {}, &block)          add(UITextField, options, &block); end
     def text_view(options = {}, &block)           add(UITextView, options, &block); end
     def toolbar(options = {}, &block)             add(UIToolbar, options, &block); end
+    def view(options = {}, &block)                add(UIView, options, &block); end
     def web_view(options = {}, &block)            add(UIWebView, options, &block); end
   end
   
