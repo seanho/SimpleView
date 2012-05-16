@@ -19,6 +19,7 @@ class UIView
     anchor_bottom = @anchors.include?(:bottom)
     anchor_right = @anchors.include?(:right)
     
+    self.autoresizingMask = UIViewAutoresizingNone
     self.autoresizingMask |= UIViewAutoresizingFlexibleTopMargin unless anchor_top
     self.autoresizingMask |= UIViewAutoresizingFlexibleLeftMargin unless anchor_left
     self.autoresizingMask |= UIViewAutoresizingFlexibleBottomMargin unless anchor_bottom
