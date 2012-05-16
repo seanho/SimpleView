@@ -2,6 +2,8 @@
 
 A DSL for UIKit for RubyMotion.
 
+Demo app using SimpleView: [Currency](https://github.com/seanho/Currency)
+
 ## Installation
 The lazy and dirty way is to copy the source files into your own project.
 
