@@ -1,9 +1,9 @@
 module UI
-  class Layout
+  class Layouts
     attr_accessor :view, :locals
     
     def self.setup(view = nil, locals = {}, &block)
-      layout = Layout.new(view, locals)
+      layout = Layouts.new(view, locals)
       layout.instance_eval &block
     end
 
@@ -20,7 +20,7 @@ module UI
       subview = ViewBuilder.build(klass, options)
       
       if block_given?
-        child_layout = Layout.new(subview, @locals)
+        child_layout = Layouts.new(subview, @locals)
         child_layout.instance_eval &block
       end
       
@@ -60,6 +60,7 @@ module UI
       UIActivityIndicatorView => UIActivityIndicatorViewBuilder.new,
       UIButton                => UIButtonBuilder.new,
       UIImageView             => UIImageViewBuilder.new,
+      UILabel                 => UILabelBuilder.new,
       UIProgressView          => UIProgressViewBuilder.new,
       UISearchBar             => UISearchBarBuilder.new,
       UISegmentedControl      => UISegmentedControlBuilder.new,
@@ -67,6 +68,8 @@ module UI
       UITabBar                => UITabBarBuilder.new,
       UITableView             => UITableViewBuilder.new,
       UITableViewCell         => UITableViewCellBuilder.new,
+      UITextField             => UITextFieldBuilder.new,
+      UITextView              => UITextViewBuilder.new,
       UIToolbar               => UIToolbarBuilder.new
     }
     

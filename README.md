@@ -15,7 +15,7 @@ Or refer to the blog post [Using 3rd Party Ruby Library in RubyMotion](http://re
 
 ````ruby
 def viewDidLoad
-  UI::Layout.setup(view) do
+  UI::Layouts.setup(view) do
     label width: 200, height: 20, text: "Choose your lucky word", color: UIColor.darkGrayColor
     image_view top: 50, left: 50, right: 50, image: "sample.jpg"
     toolbar anchors[:bottom]
@@ -29,7 +29,7 @@ Hash parameters works only on KVC-compliant properties. To configure view object
 
 ````ruby
 def viewDidLoad
-  UI::Layout.setup(view) do
+  UI::Layouts.setup(view) do
     button do
       @view.setTitle("Submit" forState: UIControlStateNormal)
     end
@@ -64,7 +64,7 @@ end
 ### Custom view support
 
 ````ruby
-UI::Layout.setup(view) do
+UI::Layouts.setup(view) do
   add CustomViewClass, name: "custom_view"...
 end
 ````
@@ -72,7 +72,7 @@ end
 ### View anchoring
 
 ````ruby
-UI::Layout.setup(view) do
+UI::Layouts.setup(view) do
   toolbar bottom: 10, left: 10, right: 10, anchors: [:bottom]
 end
 ````
@@ -83,7 +83,7 @@ Hash parameters will automatically turns into instance variable within the block
 
 ````ruby
 def viewDidLoad
-  UI::Layout.setup(view, controller: self) do
+  UI::Layouts.setup(view, controller: self) do
     table_view delegate: @controller, dataSource: @controller
   end
 end
@@ -95,7 +95,7 @@ No need to declare ivar, no need to use integer tag, just name your view and acc
 
 ````ruby
 def viewDidLoad
-  UI::Layout.setup(view) do
+  UI::Layouts.setup(view) do
     label name: "price_label" # give a name to the label
   end
 end

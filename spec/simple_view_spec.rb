@@ -4,7 +4,7 @@ describe "UI" do
       view = UIView.alloc.init
       controller_a = Object.new
       controller_b = Object.new
-      layout = UI::Layout.new(view, controller_a: controller_a, controller_b: controller_b)
+      layout = UI::Layouts.new(view, controller_a: controller_a, controller_b: controller_b)
       puts layout.view.class
       layout.view.should == view
       layout.controller_a.should == controller_a
@@ -14,7 +14,7 @@ describe "UI" do
     describe "#setup" do
       it "should execute the block within view object scope" do
         view = UIView.alloc.initWithFrame(CGRectZero)
-        UI::Layout.setup(view) do
+        UI::Layouts.setup(view) do
           @view.frame = CGRectMake(0, 0, 10, 10)
         end
         view.frame.should == CGRectMake(0, 0, 10, 10)
@@ -27,7 +27,7 @@ describe "UI" do
         alpha = 0.5
         backgroundColor = UIColor.redColor
         
-        layout = UI::Layout.new
+        layout = UI::Layouts.new
         view = layout.add UIView, frame: frame, alpha: alpha, backgroundColor: backgroundColor
         view.frame.should == frame
         view.alpha.should == alpha
@@ -35,7 +35,7 @@ describe "UI" do
       end
       
       it "should execute block" do
-        layout = UI::Layout.new
+        layout = UI::Layouts.new
         view = layout.add UIView do
           label
         end
@@ -44,7 +44,7 @@ describe "UI" do
       
       it "should add view to superview" do
         super_view = UIView.alloc.init
-        layout = UI::Layout.new(super_view)
+        layout = UI::Layouts.new(super_view)
         subview = layout.add UIView
         super_view.subviews.first.should == subview
       end
@@ -52,7 +52,7 @@ describe "UI" do
     
     describe "shorthand methods" do
       before do
-        @layout = UI::Layout.new
+        @layout = UI::Layouts.new
       end
       
       it "should create UIButton" do
