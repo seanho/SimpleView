@@ -19,12 +19,13 @@ module UI
     def add(klass, options = {}, &block)
       subview = ViewBuilder.build(klass, options)
       
+      @view.addSubview(subview) unless @view.nil?
+      
       if block_given?
         child_layout = Layouts.new(subview, @locals)
         child_layout.instance_eval &block
       end
       
-      @view.addSubview(subview) unless @view.nil?
       subview.invalidate_size
       subview
     end
