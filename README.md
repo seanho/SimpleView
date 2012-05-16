@@ -2,10 +2,6 @@
 
 A DSL for UIKit for RubyMotion.
 
-* Simpler view declaration syntax
-* UIView helper methods
-* View tagging with string
-
 ## Installation
 The lazy and dirty way is to copy the source files into your own project.
 
@@ -16,7 +12,7 @@ Or refer to the blog post [Using 3rd Party Ruby Library in RubyMotion](http://re
 ````ruby
 def viewDidLoad
   UI::Layouts.setup(view) do
-    label width: 200, height: 20, text: "Choose your lucky word", color: UIColor.darkGrayColor
+    label width: 200, height: 20, text: "Choose your lucky word", color: "#eee"
     image_view top: 50, left: 50, right: 50, image: "sample.jpg"
     toolbar anchors[:bottom]
   end
