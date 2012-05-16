@@ -14,6 +14,11 @@ module UI
     attr_reader :view
 
     def build(klass, options = {})
+      style = options.delete(:styles)
+      if style
+        predefined = UI::Styles.for(style)
+        options.merge!(predefined) if predefined
+      end
       @view = view_for_class(klass, options)
 
       unless options.nil?

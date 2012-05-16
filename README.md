@@ -59,11 +59,39 @@ end
 
 ### Custom view support
 
+SimpleView works not only with UIKit, custom or 3rd party created views and controls can also be used
+
 ````ruby
 UI::Layouts.setup(view) do
   add CustomViewClass, name: "custom_view"...
 end
 ````
+
+### Style Template
+
+_Experimental. Might change in future._
+
+Define a style and apply to multiple views with ease.
+
+````ruby
+class AppDelegate
+  def application(application, didFinishLaunchingWithOptions:launchOptions)
+    UI::Styles.define :tag_label,
+      font: "italic 13"
+      text_color: "#999"
+  end
+end
+  
+class ViewController
+  def viewDidLoad
+    UI::Layouts.setup(view, controller: self) do
+      label styles: :tag_label, text: "Left", anchors: [:left]
+      label styles: :tag_label, text: "Right", anchors: [:right]
+    end
+  end
+end
+````
+
 
 ### View anchoring
 
