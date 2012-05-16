@@ -1,35 +1,50 @@
 module UI
-  class UISliderBuilder < UIViewBuilder
+  class UISliderBuilder < UIControlBuilder
     def setMinimumTrackImage(image, forStates: state)
-      @view.setMinimumTrackImage(safe_image(image), forStates: state)
+      @view.setMinimumTrackImage(image_with(image), forStates: state)
     end
     
     def setMaximumTrackImage(image, forStates: state)
-      @view.setMaximumTrackImage(safe_image(image), forStates: state)
+      @view.setMaximumTrackImage(image_with(image), forStates: state)
     end
     
     def setThumbImage(image, forStates: state)
-      @view.setThumbImage(safe_image(image), forStates: state)
+      @view.setThumbImage(image_with(image), forStates: state)
     end
     
     def setThumbImage(image, forState: state)
-      @view.setThumbImage(safe_image(image), forState: state)
+      @view.setThumbImage(image_with(image), forState: state)
     end
     
     def setMinimumTrackImage(image, forState: state)
-      @view.setMinimumTrackImage(safe_image(image), forState: state)
+      @view.setMinimumTrackImage(image_with(image), forState: state)
     end
     
     def setMaximumTrackImage(image, forState: state)
-      @view.setMaximumTrackImage(safe_image(image), forState: state)
+      @view.setMaximumTrackImage(image_with(image), forState: state)
     end
     
     def setMinimumValueImage(image)
-      @view.setMinimumValueImage(safe_image(image))
+      @view.setMinimumValueImage(image_with(image))
     end
     
     def setMaximumValueImage(image)
-      @view.setMaximumValueImage(safe_image(image))
+      @view.setMaximumValueImage(image_with(image))
     end
+    
+    def setMinimumTrackTintColor(color)
+      @view.minimumTrackTintColor = color_with(color)
+    end
+    alias_method :setMinimum_track_tint_color, :setMinimumTrackTintColor
+    
+    def setMaximumTrackTintColor(color)
+      @view.maximumTrackTintColor = color_with(color)
+    end
+    alias_method :setMaximum_track_tint_color, :setMaximumTrackTintColor
+    
+    def setThumbTintColor(color)
+      @view.thumbTintColor = color_with(color)
+    end
+    alias_method :setThumb_tint_color, :setThumbTintColor
   end
 end

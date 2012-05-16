@@ -2,12 +2,9 @@ module UI
   module Builders
     module HasBackgroundColor
       def setBackgroundColor(color)
-        @view.backgroundColor = safe_color(color)
+        @view.backgroundColor = color_with(color)
       end
-
-      def setBackground_color(color)
-        setBackgroundColor(color)
-      end
+      alias_method :setBackground_color, :setBackgroundColor
     end
   end
 end

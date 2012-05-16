@@ -65,6 +65,7 @@ module UI
       UISearchBar             => UISearchBarBuilder.new,
       UISegmentedControl      => UISegmentedControlBuilder.new,
       UISlider                => UISliderBuilder.new,
+      UISwitch                => UISwitchBuilder.new,
       UITabBar                => UITabBarBuilder.new,
       UITableView             => UITableViewBuilder.new,
       UITableViewCell         => UITableViewCellBuilder.new,

@@ -27,11 +27,11 @@ module UI
     end
     
     def setImage(image)
-      @view.image = safe_image(image)
+      @view.image = image_with(image)
     end
     
     def setHighlightedImage(image)
-      @view.highlightedImage = safe_image(image)
+      @view.highlightedImage = image_with(image)
     end
   end
 end

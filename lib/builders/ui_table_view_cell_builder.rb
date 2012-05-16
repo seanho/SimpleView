@@ -7,11 +7,11 @@ module UI
     end
     
     def setImage(image)
-      @view.image = safe_image(image)
+      @view.image = image_with(image)
     end
     
     def setSelectedImage(image)
-      @view.selectedImage = safe_image(image)
+      @view.selectedImage = image_with(image)
     end
   end
 end

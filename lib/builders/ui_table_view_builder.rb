@@ -4,5 +4,10 @@ module UI
       style = options.delete(:style) || UITableViewStylePlain
       klass.alloc.initWithFrame(CGRectZero, style: style)
     end
+    
+    def setSeparatorColor(color)
+      @view.separatorColor = color_with(color)
+    end
+    alias_method :setSeparator_color, :setSeparatorColor
   end
 end

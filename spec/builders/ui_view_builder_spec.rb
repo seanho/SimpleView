@@ -32,10 +32,4 @@ describe "UIViewBuilder" do
       a[0].should == 1
     end
   end
-  
-  describe "#tintColor" do
-    it "should set tintColor" do
-      view = UI::UIViewBuilder.new.build(UIToolbar, tintColor: "#f00")
-    end
-  end
 end

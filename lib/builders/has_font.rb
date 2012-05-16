@@ -2,7 +2,7 @@ module UI
   module Builders
     module HasFont
       def setFont(font)
-        @view.font = safe_font(font)
+        @view.font = font_with(font)
       end
     end
   end

@@ -1,6 +1,6 @@
 module UI
   module BuilderHelpers
-    def safe_font(font)
+    def font_with(font)
       if font.is_a?(String)
         bold = false
         italic = false
@@ -33,7 +33,7 @@ module UI
       end
     end
 
-    def safe_color(color)
+    def color_with(color)
       if color.is_a?(String)
         UIColor.from_html(color)
       else
@@ -41,7 +41,7 @@ module UI
       end
     end
 
-    def safe_image(image)
+    def image_with(image)
       if image.is_a?(String)
         UIImage.imageNamed(image)
       else

@@ -2,12 +2,9 @@ module UI
   module Builders
     module HasTintColor
       def setTintColor(color)
-        @view.tintColor = safe_color(color)
+        @view.tintColor = color_with(color)
       end
-
-      def setTint_color(color)
-        setTintColor(color)
-      end
+      alias_method :setTint_color, :setTintColor
     end
   end
 end

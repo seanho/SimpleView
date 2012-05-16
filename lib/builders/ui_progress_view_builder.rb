@@ -6,11 +6,21 @@ module UI
     end
     
     def setProgressImage(image)
-      @view.progressImage = safe_image(image)
+      @view.progressImage = image_with(image)
     end
     
     def setTrackImage(image)
-      @view.trackImage = safe_image(image)
+      @view.trackImage = image_with(image)
     end
+    
+    def setProgressTintColor(color)
+      @view.progressTintColor = color_with(color)
+    end
+    alias_method :setProgress_tint_color, :setProgressTintColor
+    
+    def setTrackTintColor(color)
+      @view.trackTintColor = color_with(color)
+    end
+    alias_method :setTrack_tint_color, :setTrackTintColor
   end
 end
