@@ -5,9 +5,25 @@ A DSL for UIKit for RubyMotion.
 Demo app using SimpleView: [Currency](https://github.com/seanho/Currency)
 
 ## Installation
-The lazy and dirty way is to copy the source files into your own project.
 
-Or refer to the blog post [Using 3rd Party Ruby Library in RubyMotion](http://reality.hk/posts/2012/05/05/using-3rd-party-ruby-library-rubymotion/).
+Add the gem to your Gemfile
+
+`gem 'simple-view', :git => 'https://github.com/seanho/SimpleView.git'`
+
+Then `bundle install`
+
+Require SimpleView in Rakefile
+
+```ruby
+$:.unshift("/Library/RubyMotion/lib")
+require 'motion/project'
+require 'simple-view'
+
+Motion::Project::App.setup do |app|
+  ...
+end
+
+```
 
 ## Usage
 
