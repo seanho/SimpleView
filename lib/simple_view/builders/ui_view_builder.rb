@@ -40,6 +40,6 @@ module UI
     end
     
     protected
-    include UI::BuilderHelpers
+    include UI::Builders::Converters
   end
 end

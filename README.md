@@ -16,7 +16,7 @@ def viewDidLoad
   UI::Layouts.setup(view) do
     label width: 200, height: 20, text: "Choose your lucky word", color: "#eee"
     image_view top: 50, left: 50, right: 50, image: "sample.jpg"
-    toolbar anchors[:bottom]
+    toolbar anchors: [:bottom]
   end
 end
 ````
