@@ -2,7 +2,7 @@
 
 A DSL for UIKit for RubyMotion.
 
-Demo app using SimpleView: [Currency](https://github.com/seanho/Currency)
+Demo app: [Currency](https://github.com/seanho/CurrencyApp-RubyMotion)
 
 ## Installation
 
@@ -95,7 +95,7 @@ Define a style and apply to multiple views with ease.
 class AppDelegate
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     UI::Styles.define :tag_label,
-      font: "italic 13"
+      font: "italic 13",
       text_color: "#999"
   end
 end
