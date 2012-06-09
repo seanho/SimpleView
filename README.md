@@ -65,7 +65,7 @@ end
 - UISegmentedControl via `segmented_control`
 - UISlider via `slider`
 - UIStepper via `stepper`
-- UISwitch via `swtich`
+- UISwitch via `switch`
 - UITabBar via `tab_bar`
 - UITableView via `table_view`
 - UITableViewCell via `table_view_cell`
