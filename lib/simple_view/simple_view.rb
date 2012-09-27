@@ -1,31 +1,36 @@
-module UI
+module Simple
   class Layouts
-    attr_accessor :view, :locals
-    
-    def self.setup(view = nil, locals = {}, &block)
-      layout = Layouts.new(view, locals)
+    def self.setup view, locals = {}, &block
+      layout = Layouts.new view, locals
       layout.instance_eval &block
     end
 
-    def initialize(view = nil, locals = {})
+    def initialize view, locals = {}
       @view = view
       @locals = locals
-      @locals.each do |k,v|
-        self.class.send(:attr_accessor, k)
-        self.instance_variable_set "@#{k}", v
+
+      if @locals
+        @locals.each do |k, v|
+          self.class.send :attr_accessor, k
+          self.instance_variable_set "@#{k}", v
+        end
       end
     end
-    
-    def add(klass, options = {}, &block)
+
+    def view
+      @view
+    end
+
+    def add klass, options = {}, &block
       subview = ViewBuilder.build(klass, options)
-      
+
       @view.addSubview(subview) unless @view.nil?
-      
+
       if block_given?
         child_layout = Layouts.new(subview, @locals)
         child_layout.instance_eval &block
       end
-      
+
       subview.invalidate_size
       subview
     end
@@ -53,20 +58,20 @@ module UI
     def toolbar(options = {}, &block)             add(UIToolbar, options, &block); end
     def web_view(options = {}, &block)            add(UIWebView, options, &block); end
   end
-  
+
   class Styles
     @@repo = {}
-    
+
     def self.define(name, options = {})
       existing = @@repo[name] || {}
       @@repo[name] = existing.update(options)
     end
-    
+
     def self.for(name)
       @@repo[name]
     end
   end
-  
+
   class ViewBuilder
     @@builders = {
       UIView                  => UIViewBuilder.new,
@@ -87,8 +92,8 @@ module UI
       UITextView              => UITextViewBuilder.new,
       UIToolbar               => UIToolbarBuilder.new
     }
-    
-    def self.build(klass, options = {})
+
+    def self.build klass, options = {}
       if @@builders.has_key?(klass)
         builder = @@builders[klass]
       elsif klass < UIControl
@@ -96,11 +101,11 @@ module UI
       else
         builder = @@builders[UIView]
       end
-      
-      builder.build(klass, options)
+
+      builder.build klass, options
     end
-    
-    def self.register(klass, builder)
+
+    def self.register klass, builder
       @@builders[klass] = builder
     end
   end

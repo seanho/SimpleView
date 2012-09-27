@@ -1,11 +1,11 @@
 describe "UIViewBuilder" do
   it "should build UIView" do
-    UI::UIViewBuilder.new.build(UIView).class.should == UIView
+    Simple::UIViewBuilder.new.build(UIView).class.should == UIView
   end
-  
+
   describe "#backgroundColor" do
     it "should set backgroundColor by HTML code" do
-      view = UI::UIViewBuilder.new.build(UIView, backgroundColor: "#f00")
+      view = Simple::UIViewBuilder.new.build(UIView, backgroundColor: "#f00")
 
       r = Pointer.new(:float)
       g = Pointer.new(:float)
@@ -19,7 +19,7 @@ describe "UIViewBuilder" do
     end
 
     it "should set background_color by HTML code" do
-      view = UI::UIViewBuilder.new.build(UIView, background_color: "#f00")
+      view = Simple::UIViewBuilder.new.build(UIView, background_color: "#f00")
 
       r = Pointer.new(:float)
       g = Pointer.new(:float)

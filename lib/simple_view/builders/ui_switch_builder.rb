@@ -1,4 +1,4 @@
-module UI
+module Simple
   class UISwitchBuilder < UIControlBuilder
     def setOnTintColor(color)
       @view.onTintColor = color_with(color)

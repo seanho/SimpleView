@@ -1,4 +1,4 @@
-module UI
+module Simple
   module Builders
     module HasTextColor
       def setTextColor(color)

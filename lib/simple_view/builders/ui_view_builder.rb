@@ -1,7 +1,7 @@
-module UI
+module Simple
   class UIViewBuilder
-    include UI::Builders::HasBackgroundColor
-    
+    include Simple::Builders::HasBackgroundColor
+
     STRUCTS_MAP = {
       CGAffineTransform   => Proc.new {|v| NSValue.valueWithCGAffineTransform(v) },
       CGPoint             => Proc.new {|v| NSValue.valueWithCGPoint(v) },
@@ -16,7 +16,7 @@ module UI
     def build(klass, options = {})
       style = options.delete(:styles)
       if style
-        predefined = UI::Styles.for(style)
+        predefined = Simple::Styles.for(style)
         options.merge!(predefined) if predefined
       end
       @view = view_for_class(klass, options)
@@ -38,8 +38,8 @@ module UI
     def setValue(value, forUndefinedKey:key)
       @view.setValue(value, forKey: key)
     end
-    
+
     protected
-    include UI::Builders::Converters
+    include Simple::Builders::Converters
   end
 end

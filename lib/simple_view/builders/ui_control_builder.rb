@@ -1,4 +1,4 @@
-module UI
+module Simple
   class UIControlBuilder < UIViewBuilder
     def view_for_class(klass, options = {})
       klass.alloc.init

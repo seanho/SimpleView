@@ -4,57 +4,57 @@ describe "UI" do
       view = UIView.alloc.init
       controller_a = Object.new
       controller_b = Object.new
-      layout = UI::Layouts.new(view, controller_a: controller_a, controller_b: controller_b)
+      layout = Simple::Layouts.new(view, controller_a: controller_a, controller_b: controller_b)
       puts layout.view.class
       layout.view.should == view
       layout.controller_a.should == controller_a
       layout.controller_b.should == controller_b
     end
-    
+
     describe "#setup" do
       it "should execute the block within view object scope" do
         view = UIView.alloc.initWithFrame(CGRectZero)
-        UI::Layouts.setup(view) do
+        Simple::Layouts.setup(view) do
           @view.frame = CGRectMake(0, 0, 10, 10)
         end
         view.frame.should == CGRectMake(0, 0, 10, 10)
       end
     end
-    
+
     describe "#add" do
       it "should add view with options" do
         frame = CGRectMake(0, 0, 10, 10)
         alpha = 0.5
         backgroundColor = UIColor.redColor
-        
-        layout = UI::Layouts.new
+
+        layout = Simple::Layouts.new
         view = layout.add UIView, frame: frame, alpha: alpha, backgroundColor: backgroundColor
         view.frame.should == frame
         view.alpha.should == alpha
         view.backgroundColor.should == backgroundColor
       end
-      
+
       it "should execute block" do
-        layout = UI::Layouts.new
+        layout = Simple::Layouts.new
         view = layout.add UIView do
           label
         end
         view.subviews.first.class.should == UILabel
       end
-      
+
       it "should add view to superview" do
         super_view = UIView.alloc.init
-        layout = UI::Layouts.new(super_view)
+        layout = Simple::Layouts.new(super_view)
         subview = layout.add UIView
         super_view.subviews.first.should == subview
       end
     end
-    
+
     describe "shorthand methods" do
       before do
-        @layout = UI::Layouts.new
+        @layout = Simple::Layouts.new
       end
-      
+
       it "should create UIButton" do
         @layout.button.class.should == UIRoundedRectButton
       end

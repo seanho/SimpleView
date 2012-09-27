@@ -1,6 +1,6 @@
-module UI
+module Simple
   class UITextFieldBuilder < UIViewBuilder
-    include UI::Builders::HasFont
-    include UI::Builders::HasTextColor
+    include Simple::Builders::HasFont
+    include Simple::Builders::HasTextColor
   end
 end
