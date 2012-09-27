@@ -1,8 +1,8 @@
 class UIColor
   # reference: http://color.rubyforge.org/
-  def self.from_html(html_colour)
+  def self.from_html html_colour
     html_colour = html_colour.gsub(%r{[#;]}, '')
-    case html_colour.size 
+    case html_colour.size
     when 3
       colours = html_colour.scan(%r{[0-9A-Fa-f]}).map { |el| (el * 2).to_i(16) }
     when 6

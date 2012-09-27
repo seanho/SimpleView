@@ -1,5 +1,5 @@
 class UIFont
-  def self.parse(str)
+  def self.parse str
     bold = false
     italic = false
     size = UIFont.systemFontSize
