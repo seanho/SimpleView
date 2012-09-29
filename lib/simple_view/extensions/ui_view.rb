@@ -6,8 +6,25 @@ module SimpleView
       subviews.each do |subview|
         return subview if subview.name == name
       end
+      nil
     end
     alias_method :subview, :find
+
+    def sibling name
+      if superview
+        superview.find name
+      else
+        nil
+      end
+    end
+
+    def closest name
+      view = sibling name
+      if view.nil? && superview
+        view = superview.closest name
+      end
+      view
+    end
 
     def invalidate_size
       f = self.frame
