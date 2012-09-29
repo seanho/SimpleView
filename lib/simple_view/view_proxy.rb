@@ -1,11 +1,4 @@
 module SimpleView
-  module Layout
-    def setup view, locals = {}, &block
-      proxy = SimpleView::ViewProxy.new view, locals
-      proxy.instance_eval &block if block_given?
-    end
-  end
-
   class ViewProxy
     attr_reader :view
 
@@ -71,18 +64,5 @@ module SimpleView
     def text_view(options = {}, &block)           add(::UITextView, options, &block); end
     def toolbar(options = {}, &block)             add(::UIToolbar, options, &block); end
     def web_view(options = {}, &block)            add(::UIWebView, options, &block); end
-  end
-
-  class Styles
-    @@repo = {}
-
-    def self.define name, options = {}
-      existing = @@repo[name] || {}
-      @@repo[name] = existing.update(options)
-    end
-
-    def self.for name
-      @@repo[name]
-    end
   end
 end
