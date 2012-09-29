@@ -19,8 +19,22 @@ module Simple
       end
     end
 
+    def build_view klass, options = {}
+      builder_class = "#{klass}Builder"
+
+      if Simple.const_defined? builder_class
+        Simple.const_get(builder_class).new.build klass, options
+      else
+        if klass < UIControl
+          UIControlBuilder.new.build klass, options
+        else
+          UIViewBuilder.new.build klass, options
+        end
+      end
+    end
+
     def add klass, options = {}, &block
-      subview = ViewBuilder.build(klass, options)
+      subview = build_view klass, options
 
       @view.addSubview(subview) unless @view.nil?
 
@@ -67,44 +81,6 @@ module Simple
 
     def self.for name
       @@repo[name]
-    end
-  end
-
-  class ViewBuilder
-    @@builders = {
-      UIView                  => UIViewBuilder.new,
-      UIControl               => UIControlBuilder.new,
-      UIActivityIndicatorView => UIActivityIndicatorViewBuilder.new,
-      UIButton                => UIButtonBuilder.new,
-      UIImageView             => UIImageViewBuilder.new,
-      UILabel                 => UILabelBuilder.new,
-      UIProgressView          => UIProgressViewBuilder.new,
-      UISearchBar             => UISearchBarBuilder.new,
-      UISegmentedControl      => UISegmentedControlBuilder.new,
-      UISlider                => UISliderBuilder.new,
-      UISwitch                => UISwitchBuilder.new,
-      UITabBar                => UITabBarBuilder.new,
-      UITableView             => UITableViewBuilder.new,
-      UITableViewCell         => UITableViewCellBuilder.new,
-      UITextField             => UITextFieldBuilder.new,
-      UITextView              => UITextViewBuilder.new,
-      UIToolbar               => UIToolbarBuilder.new
-    }
-
-    def self.build klass, options = {}
-      if @@builders.has_key?(klass)
-        builder = @@builders[klass]
-      elsif klass < UIControl
-        builder = @@builders[UIControl]
-      else
-        builder = @@builders[UIView]
-      end
-
-      builder.build klass, options
-    end
-
-    def self.register klass, builder
-      @@builders[klass] = builder
     end
   end
 end
