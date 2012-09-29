@@ -1,70 +1,72 @@
-module Simple
-  class UIViewBuilder
-    include Simple::Builders::HasBackgroundColor
+module SimpleView
+  module Builders
+    class UIViewBuilder
+      include SimpleView::Builders::HasBackgroundColor
 
-    STRUCTS_MAP = {
-      CGAffineTransform   => Proc.new {|v| NSValue.valueWithCGAffineTransform(v) },
-      CGPoint             => Proc.new {|v| NSValue.valueWithCGPoint(v) },
-      CGRect              => Proc.new {|v| NSValue.valueWithCGRect(v) },
-      CGSize              => Proc.new {|v| NSValue.valueWithCGSize(v) },
-      UIEdgeInsets        => Proc.new {|v| NSValue.valueWithUIEdgeInsets(v) },
-      UIOffset            => Proc.new {|v| NSValue.valueWithUIOffset(v) }
-    }
+      STRUCTS_MAP = {
+        CGAffineTransform   => Proc.new {|v| NSValue.valueWithCGAffineTransform(v) },
+        CGPoint             => Proc.new {|v| NSValue.valueWithCGPoint(v) },
+        CGRect              => Proc.new {|v| NSValue.valueWithCGRect(v) },
+        CGSize              => Proc.new {|v| NSValue.valueWithCGSize(v) },
+        UIEdgeInsets        => Proc.new {|v| NSValue.valueWithUIEdgeInsets(v) },
+        UIOffset            => Proc.new {|v| NSValue.valueWithUIOffset(v) }
+      }
 
-    attr_reader :view
+      attr_reader :view
 
-    def build klass, options = {}
-      options = options_for_class klass, options
-      @view = view_for_class klass, options
+      def build klass, options = {}
+        options = options_for_class klass, options
+        @view = view_for_class klass, options
 
-      if options
-        options.each do |k,v|
-          options[k] = STRUCTS_MAP[v.class].call(v) if STRUCTS_MAP.has_key?(v.class)
+        if options
+          options.each do |k,v|
+            options[k] = STRUCTS_MAP[v.class].call(v) if STRUCTS_MAP.has_key?(v.class)
+          end
+          setValuesForKeysWithDictionary options
         end
-        setValuesForKeysWithDictionary options
+
+        @view
       end
 
-      @view
-    end
+      def view_for_class klass, options = {}
+        klass.alloc.initWithFrame(CGRectZero)
+      end
 
-    def view_for_class klass, options = {}
-      klass.alloc.initWithFrame(CGRectZero)
-    end
+      def options_for_class klass, options = {}
+        class_style = SimpleView::Styles.for(klass) || {}
+        custom_styles = options.delete(:styles)
 
-    def options_for_class klass, options = {}
-      class_style = Simple::Styles.for(klass) || {}
-      custom_styles = options.delete(:styles)
-
-      if custom_styles.is_a?(Symbol)
-        style = Simple::Styles.for(custom_styles)
-        class_style.update(style) if style
-
-      elsif custom_styles.is_a?(Array)
-        custom_styles.each do |custom_style|
-          style = Simple::Styles.for(custom_style)
+        if custom_styles.is_a?(Symbol)
+          style = SimpleView::Styles.for(custom_styles)
           class_style.update(style) if style
+
+        elsif custom_styles.is_a?(Array)
+          custom_styles.each do |custom_style|
+            style = SimpleView::Styles.for(custom_style)
+            class_style.update(style) if style
+          end
         end
+
+        class_style.update(options)
       end
 
-      class_style.update(options)
-    end
+      def setValue value, forUndefinedKey: key
+        @view.setValue value, forKey: key
+      end
 
-    def setValue value, forUndefinedKey: key
-      @view.setValue value, forKey: key
-    end
+      protected
 
-    protected
+      def font_with font
+        font.is_a?(String) ? UIFont.parse(font) : font
+      end
 
-    def font_with font
-      font.is_a?(String) ? UIFont.parse(font) : font
-    end
+      def color_with color
+        color.is_a?(String) ? UIColor.from_html(color) : color
+      end
 
-    def color_with color
-      color.is_a?(String) ? UIColor.from_html(color) : color
-    end
-
-    def image_with image
-      image.is_a?(String) ? UIImage.imageNamed(image) : image
+      def image_with image
+        image.is_a?(String) ? UIImage.imageNamed(image) : image
+      end
     end
   end
 end

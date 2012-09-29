@@ -1,34 +1,41 @@
-describe "Simple" do
-  describe "Styles" do
-    it "should define a style and retrieve it" do
-      style = {color: :red}
-
-      Simple::Styles.define :test, style
-
-      Simple::Styles.for(:test).should == style
-    end
-  end
-
+describe "SimpleView" do
   describe "Layout" do
-    it "should convert locals to instance variables" do
-      view = UIView.alloc.init
-      controller_a = Object.new
-      controller_b = Object.new
-      layout = Simple::Layouts.new(view, controller_a: controller_a, controller_b: controller_b)
-      puts layout.view.class
-      layout.view.should == view
-      layout.controller_a.should == controller_a
-      layout.controller_b.should == controller_b
-    end
-
     describe "#setup" do
+      class DummyController
+        include SimpleView::Layout
+      end
+
       it "should execute the block within view object scope" do
         view = UIView.alloc.initWithFrame(CGRectZero)
-        Simple::Layouts.setup(view) do
+        DummyController.new.setup view do
           @view.frame = CGRectMake(0, 0, 10, 10)
         end
         view.frame.should == CGRectMake(0, 0, 10, 10)
       end
+    end
+  end
+
+  describe "Styles" do
+    it "should define a style and retrieve it" do
+      style = {color: :red}
+
+      SimpleView::Styles.define :test, style
+
+      SimpleView::Styles.for(:test).should == style
+    end
+  end
+
+  describe "ViewProxy" do
+    it "should convert locals to instance variables" do
+      view = UIView.alloc.init
+      local_a = Object.new
+      local_b = Object.new
+
+      proxy = SimpleView::ViewProxy.new(view, local_a: local_a, local_b: local_b)
+
+      proxy.view.should == view
+      proxy.local_a.should == local_a
+      proxy.local_b.should == local_b
     end
 
     describe "#add" do
@@ -37,8 +44,8 @@ describe "Simple" do
         alpha = 0.5
         backgroundColor = UIColor.redColor
 
-        layout = Simple::Layouts.new
-        view = layout.add UIView, frame: frame, alpha: alpha, backgroundColor: backgroundColor
+        proxy = SimpleView::ViewProxy.new
+        view = proxy.add UIView, frame: frame, alpha: alpha, backgroundColor: backgroundColor
         view.frame.should == frame
         view.alpha.should == alpha
         view.backgroundColor.should == backgroundColor
@@ -46,44 +53,44 @@ describe "Simple" do
 
       describe "#add with predefined styles" do
         it "should add view with default style" do
-          Simple::Styles.define UIView, backgroundColor: UIColor.redColor
+          SimpleView::Styles.define UIView, backgroundColor: UIColor.redColor
 
-          layout = Simple::Layouts.new
-          view = layout.add UIView
+          proxy = SimpleView::ViewProxy.new
+          view = proxy.add UIView
           view.backgroundColor.should == UIColor.redColor
         end
 
         it "should add view with custom style" do
-          Simple::Styles.define :blue, backgroundColor: UIColor.blueColor
+          SimpleView::Styles.define :blue, backgroundColor: UIColor.blueColor
 
-          layout = Simple::Layouts.new
-          view = layout.add UIView, styles: :blue
+          proxy = SimpleView::ViewProxy.new
+          view = proxy.add UIView, styles: :blue
           view.backgroundColor.should == UIColor.blueColor
         end
 
         it "should add view with multiple custom styles" do
-          Simple::Styles.define :blue, backgroundColor: UIColor.blueColor
-          Simple::Styles.define :alpha, alpha: 0.5
+          SimpleView::Styles.define :blue, backgroundColor: UIColor.blueColor
+          SimpleView::Styles.define :alpha, alpha: 0.5
 
-          layout = Simple::Layouts.new
-          view = layout.add UIView, styles: [:blue, :alpha]
+          proxy = SimpleView::ViewProxy.new
+          view = proxy.add UIView, styles: [:blue, :alpha]
           view.backgroundColor.should == UIColor.blueColor
           view.alpha.should == 0.5
         end
 
         it "should add view with custom style overriding default style" do
-          Simple::Styles.define UIView, backgroundColor: UIColor.redColor
-          Simple::Styles.define :blue, backgroundColor: UIColor.blueColor
+          SimpleView::Styles.define UIView, backgroundColor: UIColor.redColor
+          SimpleView::Styles.define :blue, backgroundColor: UIColor.blueColor
 
-          layout = Simple::Layouts.new
-          view = layout.add UIView, styles: :blue
+          proxy = SimpleView::ViewProxy.new
+          view = proxy.add UIView, styles: :blue
           view.backgroundColor.should == UIColor.blueColor
         end
       end
 
       it "should execute block" do
-        layout = Simple::Layouts.new
-        view = layout.add UIView do
+        proxy = SimpleView::ViewProxy.new
+        view = proxy.add UIView do
           label
         end
         view.subviews.first.class.should == UILabel
@@ -91,95 +98,95 @@ describe "Simple" do
 
       it "should add view to superview" do
         super_view = UIView.alloc.init
-        layout = Simple::Layouts.new(super_view)
-        subview = layout.add UIView
+        proxy = SimpleView::ViewProxy.new(super_view)
+        subview = proxy.add UIView
         super_view.subviews.first.should == subview
       end
     end
 
     describe "shorthand methods" do
       before do
-        @layout = Simple::Layouts.new
+        @proxy = SimpleView::ViewProxy.new
       end
 
       it "should create UIButton" do
-        @layout.button.class.should == UIRoundedRectButton
+        @proxy.button.class.should == UIRoundedRectButton
       end
 
       it "should create UIDatePicker" do
-        @layout.date_picker.class.should == UIDatePicker
+        @proxy.date_picker.class.should == UIDatePicker
       end
 
       it "should create UIImageView" do
-        @layout.image_view.class.should == UIImageView
+        @proxy.image_view.class.should == UIImageView
       end
 
       it "should create UILabel" do
-        @layout.label.class.should == UILabel
+        @proxy.label.class.should == UILabel
       end
 
       it "should create UIPageControl" do
-        @layout.page_control.class.should == UIPageControl
+        @proxy.page_control.class.should == UIPageControl
       end
 
       it "should create UIPickerView" do
-        @layout.picker_view.class.should == UIPickerView
+        @proxy.picker_view.class.should == UIPickerView
       end
 
       it "should create UIProgressView" do
-        @layout.progress_view.class.should == UIProgressView
+        @proxy.progress_view.class.should == UIProgressView
       end
 
       it "should create UIScrollView" do
-        @layout.scroll_view.class.should == UIScrollView
+        @proxy.scroll_view.class.should == UIScrollView
       end
 
       it "should create UISearchBar" do
-        @layout.search_bar.class.should == UISearchBar
+        @proxy.search_bar.class.should == UISearchBar
       end
 
       it "should create UISegmentedControl" do
-        @layout.segmented_control.class.should == UISegmentedControl
+        @proxy.segmented_control.class.should == UISegmentedControl
       end
 
       it "should create UISlider" do
-        @layout.slider.class.should == UISlider
+        @proxy.slider.class.should == UISlider
       end
 
       it "should create UIStepper" do
-        @layout.stepper.class.should == UIStepper
+        @proxy.stepper.class.should == UIStepper
       end
 
       it "should create UISwitch" do
-        @layout.switch.class.should == UISwitch
+        @proxy.switch.class.should == UISwitch
       end
 
       it "should create UITabBar" do
-        @layout.tab_bar.class.should == UITabBar
+        @proxy.tab_bar.class.should == UITabBar
       end
 
       it "should create UITableView" do
-        @layout.table_view.class.should == UITableView
+        @proxy.table_view.class.should == UITableView
       end
 
       it "should create UITableViewCell" do
-        @layout.table_view_cell.class.should == UITableViewCell
+        @proxy.table_view_cell.class.should == UITableViewCell
       end
 
       it "should create UITextField" do
-        @layout.text_field.class.should == UITextField
+        @proxy.text_field.class.should == UITextField
       end
 
       it "should create UITextView" do
-        @layout.text_view.class.should == UITextView
+        @proxy.text_view.class.should == UITextView
       end
 
       it "should create UIToolbar" do
-        @layout.toolbar.class.should == UIToolbar
+        @proxy.toolbar.class.should == UIToolbar
       end
 
       it "should create UIWebView" do
-        @layout.web_view.class.should == UIWebView
+        @proxy.web_view.class.should == UIWebView
       end
     end
   end

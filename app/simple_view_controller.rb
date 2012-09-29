@@ -1,10 +1,12 @@
 class SimpleViewController < UIViewController
+  include SimpleView::Layout
+
   def viewDidLoad
-    Simple::Styles.define :square,
+    SimpleView::Styles.define :square,
       width: 20,
       height: 20
 
-    Simple::Layouts.setup view, controller: self do
+    setup view, controller: self do
       controller.title = "SimpleView Demo"
 
       rect styles: :square, backgroundColor: "#000", anchors: [:top, :left, :bottom, :right]

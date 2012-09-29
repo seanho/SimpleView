@@ -1,20 +1,22 @@
-module Simple
-  class UILabelBuilder < UIViewBuilder
-    include Simple::Builders::HasFont
+module SimpleView
+  module Builders
+    class UILabelBuilder < UIViewBuilder
+      include SimpleView::Builders::HasFont
 
-    def setTextColor(color)
-      @view.textColor = color_with(color)
-    end
-    alias_method :setText_color, :setTextColor
+      def setTextColor(color)
+        @view.textColor = color_with(color)
+      end
+      alias_method :setText_color, :setTextColor
 
-    def setHighlightedTextColor(color)
-      @view.highlightedTextColor = color_with(color)
-    end
-    alias_method :setHighlighted_text_color, :setHighlightedTextColor
+      def setHighlightedTextColor(color)
+        @view.highlightedTextColor = color_with(color)
+      end
+      alias_method :setHighlighted_text_color, :setHighlightedTextColor
 
-    def setShadowColor(color)
-      @view.shadowColor = color_with(color)
+      def setShadowColor(color)
+        @view.shadowColor = color_with(color)
+      end
+      alias_method :setShadow_color, :setShadowColor
     end
-    alias_method :setShadow_color, :setShadowColor
   end
 end

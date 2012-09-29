@@ -29,7 +29,7 @@ end
 
 ````ruby
 def viewDidLoad
-  Simple::Layouts.setup(view) do
+  SimpleView::Layouts.setup(view) do
     label width: 200, height: 20, text: "Choose your lucky word", color: "#eee"
     image_view top: 50, left: 50, right: 50, image: "sample.jpg"
     toolbar anchors: [:bottom]
@@ -43,7 +43,7 @@ Hash parameters works only on KVC-compliant properties. To configure view object
 
 ````ruby
 def viewDidLoad
-  Simple::Layouts.setup(view) do
+  SimpleView::Layouts.setup(view) do
     button do
       @view.setTitle("Submit" forState: UIControlStateNormal)
     end
@@ -80,7 +80,7 @@ end
 SimpleView works not only with UIKit, custom or 3rd party created views and controls can also be used
 
 ````ruby
-Simple::Layouts.setup(view) do
+SimpleView::Layouts.setup(view) do
   add CustomViewClass, name: "custom_view"...
 end
 ````
@@ -94,7 +94,7 @@ Define a style and apply to multiple views with ease.
 ````ruby
 class AppDelegate
   def application(application, didFinishLaunchingWithOptions:launchOptions)
-    Simple::Styles.define :tag_label,
+    SimpleView::Styles.define :tag_label,
       font: "italic 13",
       text_color: "#999"
   end
@@ -102,7 +102,7 @@ end
 
 class ViewController
   def viewDidLoad
-    Simple::Layouts.setup(view, controller: self) do
+    SimpleView::Layouts.setup(view, controller: self) do
       label styles: :tag_label, text: "Left", anchors: [:left]
       label styles: :tag_label, text: "Right", anchors: [:right]
     end
@@ -114,7 +114,7 @@ end
 ### View anchoring
 
 ````ruby
-Simple::Layouts.setup(view) do
+SimpleView::Layouts.setup(view) do
   toolbar bottom: 10, left: 10, right: 10, anchors: [:bottom]
 end
 ````
@@ -125,7 +125,7 @@ Hash parameters will automatically turns into instance variable within the block
 
 ````ruby
 def viewDidLoad
-  Simple::Layouts.setup(view, controller: self) do
+  SimpleView::Layouts.setup(view, controller: self) do
     table_view delegate: @controller, dataSource: @controller
   end
 end
@@ -137,7 +137,7 @@ No need to declare ivar, no need to use integer tag, just name your view and acc
 
 ````ruby
 def viewDidLoad
-  Simple::Layouts.setup(view) do
+  SimpleView::Layouts.setup(view) do
     label name: "price_label" # give a name to the label
   end
 end

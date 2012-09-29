@@ -1,4 +1,4 @@
-module Simple
+module SimpleView
   module Builders
     module HasColor
       def setColor(color)

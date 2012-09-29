@@ -1,6 +1,8 @@
-module Simple
-  class UITextViewBuilder < UIViewBuilder
-    include Simple::Builders::HasFont
-    include Simple::Builders::HasTextColor
+module SimpleView
+  module Builders
+    class UITextViewBuilder < UIViewBuilder
+      include SimpleView::Builders::HasFont
+      include SimpleView::Builders::HasTextColor
+    end
   end
 end
