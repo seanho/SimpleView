@@ -38,6 +38,7 @@ module SimpleView
         child_layout.instance_eval &block
       end
 
+      subview.sizeToFit if options[:width].nil? && options[:height].nil? && options[:right].nil? && options[:bottom].nil?
       subview.invalidate_size
       subview
     end
