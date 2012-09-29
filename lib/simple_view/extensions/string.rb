@@ -13,6 +13,35 @@ module SimpleView
 
       ::UIColor.colorWithRed(colours[0]/255.0, green: colours[1]/255.0, blue: colours[2]/255.0, alpha: 1)
     end
+
+    def to_font
+      bold = false
+      italic = false
+      size = ::UIFont.systemFontSize
+      font_name = nil
+
+      self.split(' ').each do |comp|
+        if comp == "bold"
+          bold = true
+        elsif comp == "italic"
+          italic = true
+        elsif comp.to_f > 0
+          size = comp.to_f
+        elsif comp.length > 4
+          font_name = comp
+        end
+      end
+
+      if font_name
+        ::UIFont.fontWithName(font_name, size: size)
+      elsif bold
+        ::UIFont.boldSystemFontOfSize(size)
+      elsif italic
+        ::UIFont.italicSystemFontOfSize(size)
+      else
+        ::UIFont.systemFontOfSize(size)
+      end
+    end
   end
 end
 

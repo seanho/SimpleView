@@ -56,10 +56,6 @@ module SimpleView
 
       protected
 
-      def font_with font
-        font.is_a?(String) ? UIFont.parse(font) : font
-      end
-
       def image_with image
         image.is_a?(String) ? UIImage.imageNamed(image) : image
       end
