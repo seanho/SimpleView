@@ -42,6 +42,10 @@ module SimpleView
         ::UIFont.systemFontOfSize(size)
       end
     end
+
+    def to_image
+      ::UIImage.imageNamed self
+    end
   end
 end
 

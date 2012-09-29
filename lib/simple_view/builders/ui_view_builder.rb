@@ -53,12 +53,6 @@ module SimpleView
       def setValue value, forUndefinedKey: key
         @view.setValue value, forKey: key
       end
-
-      protected
-
-      def image_with image
-        image.is_a?(String) ? UIImage.imageNamed(image) : image
-      end
     end
   end
 end

@@ -4,11 +4,11 @@ module SimpleView
       include SimpleView::Builders::HasTintColor
 
       def setBackgroundImage(image)
-        @view.backgroundImage = image_with(image)
+        @view.backgroundImage = image.to_image
       end
 
       def setSelectedImage(image)
-        @view.selectedImage = image_with(image)
+        @view.selectedImage = image.to_image
       end
 
       def setSelectedImageTintColor(color)

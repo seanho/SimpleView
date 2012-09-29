@@ -2,35 +2,35 @@ module SimpleView
   module Builders
     class UISliderBuilder < UIControlBuilder
       def setMinimumTrackImage(image, forStates: state)
-        @view.setMinimumTrackImage(image_with(image), forStates: state)
+        @view.setMinimumTrackImage(image.to_image, forStates: state)
       end
 
       def setMaximumTrackImage(image, forStates: state)
-        @view.setMaximumTrackImage(image_with(image), forStates: state)
+        @view.setMaximumTrackImage(image.to_image, forStates: state)
       end
 
       def setThumbImage(image, forStates: state)
-        @view.setThumbImage(image_with(image), forStates: state)
+        @view.setThumbImage(image.to_image, forStates: state)
       end
 
       def setThumbImage(image, forState: state)
-        @view.setThumbImage(image_with(image), forState: state)
+        @view.setThumbImage(image.to_image, forState: state)
       end
 
       def setMinimumTrackImage(image, forState: state)
-        @view.setMinimumTrackImage(image_with(image), forState: state)
+        @view.setMinimumTrackImage(image.to_image, forState: state)
       end
 
       def setMaximumTrackImage(image, forState: state)
-        @view.setMaximumTrackImage(image_with(image), forState: state)
+        @view.setMaximumTrackImage(image.to_image, forState: state)
       end
 
       def setMinimumValueImage(image)
-        @view.setMinimumValueImage(image_with(image))
+        @view.setMinimumValueImage(image.to_image)
       end
 
       def setMaximumValueImage(image)
-        @view.setMaximumValueImage(image_with(image))
+        @view.setMaximumValueImage(image.to_image)
       end
 
       def setMinimumTrackTintColor(color)

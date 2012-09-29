@@ -29,4 +29,10 @@ describe "SimpleView::String" do
       font.fontName.should == "ArialMT"
     end
   end
+
+  describe "#to_image" do
+    it "should return image by filename" do
+      "test.jpg".to_image.should == UIImage.imageNamed("test.jpg")
+    end
+  end
 end

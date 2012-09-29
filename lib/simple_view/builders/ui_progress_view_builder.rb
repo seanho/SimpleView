@@ -7,11 +7,11 @@ module SimpleView
       end
 
       def setProgressImage(image)
-        @view.progressImage = image_with(image)
+        @view.progressImage = image.to_image
       end
 
       def setTrackImage(image)
-        @view.trackImage = image_with(image)
+        @view.trackImage = image.to_image
       end
 
       def setProgressTintColor(color)

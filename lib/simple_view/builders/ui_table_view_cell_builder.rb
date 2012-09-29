@@ -8,11 +8,11 @@ module SimpleView
       end
 
       def setImage image
-        @view.image = image_with(image)
+        @view.image = image.to_image
       end
 
       def setSelectedImage image
-        @view.selectedImage = image_with(image)
+        @view.selectedImage = image.to_image
       end
     end
   end
