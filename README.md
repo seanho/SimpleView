@@ -1,6 +1,6 @@
 # SimpleView
 
-A DSL for UIKit for RubyMotion.
+RubyMotion DSL for UIKit.
 
 Demo app: [Currency](https://github.com/seanho/CurrencyApp-RubyMotion)
 
@@ -8,7 +8,7 @@ Demo app: [Currency](https://github.com/seanho/CurrencyApp-RubyMotion)
 
 Add the gem to your Gemfile
 
-`gem 'simple-view', :git => 'https://github.com/seanho/SimpleView.git'`
+`gem 'simple-view'`
 
 Then `bundle install`
 
@@ -28,30 +28,44 @@ end
 ## Usage
 
 ````ruby
-def viewDidLoad
-  SimpleView::Layouts.setup(view) do
-    label width: 200, height: 20, text: "Choose your lucky word", color: "#eee"
-    image_view top: 50, left: 50, right: 50, image: "sample.jpg"
-    toolbar anchors: [:bottom]
+class YourViewController < UIViewController
+  include SimpleView::Layout
+
+  def viewDidLoad
+    setup content_view do
+      label width: 200, height: 20, text: "Choose your lucky word", color: "#eee"
+      image_view top: 50, left: 50, right: 50, image: "sample.jpg"
+      toolbar anchors: [:bottom]
+    end
   end
 end
 ````
 
-Everything inside setup block will be added to the view automatically.
-
-Hash parameters works only on KVC-compliant properties. To configure view object in more detail, use a block
+Use block for more control over the view instance
 
 ````ruby
 def viewDidLoad
-  SimpleView::Layouts.setup(view) do
-    button do
-      @view.setTitle("Submit" forState: UIControlStateNormal)
+  setup view do
+    button tint_color: '#f00' do
+      view.setTitle "Submit" forState: UIControlStateNormal
     end
   end
 end
 ````
 
 ### UIKit support
+
+SimpleView provides shorthand methods for most UIKit classes
+
+````ruby
+def viewDidLoad
+  setup view do
+    label text: 'Hi there!' # shorthand
+    add UILabel, text: 'Hi there!' # what actually happens
+  end
+end
+````
+
 - UIActivityIndicatorView via `activity_indicator`
 - UIButton via `button`
 - UIDatePicker via `date_picker`
@@ -77,72 +91,106 @@ end
 
 ### Custom view support
 
-SimpleView works not only with UIKit, custom or 3rd party created views and controls can also be used
+SimpleView can work with any custom views and controls
 
 ````ruby
-SimpleView::Layouts.setup(view) do
+setup view do
   add CustomViewClass, name: "custom_view"...
 end
 ````
 
 ### Style Template
 
-_Experimental. Might change in future._
-
-Define a style and apply to multiple views with ease.
+Define default style and apply to UI classes automatically
 
 ````ruby
 class AppDelegate
   def application(application, didFinishLaunchingWithOptions:launchOptions)
-    SimpleView::Styles.define :tag_label,
+    SimpleView::Styles.define UILabel,
       font: "italic 13",
       text_color: "#999"
   end
 end
 
 class ViewController
+  include SimpleView::Layout
+
   def viewDidLoad
-    SimpleView::Layouts.setup(view, controller: self) do
-      label styles: :tag_label, text: "Left", anchors: [:left]
-      label styles: :tag_label, text: "Right", anchors: [:right]
+    setup view do
+      label text: "Label with default style!"
     end
   end
 end
 ````
 
+Define custom styles and mix with default style
+
+````ruby
+class AppDelegate
+  def application(application, didFinishLaunchingWithOptions:launchOptions)
+    SimpleView::Styles.define UILabel,
+      font: "13"
+
+    SimpleView::Styles.define :darkcolor,
+      text_color: "#999"
+
+    SimpleView::Styles.define :title,
+      font: "bold 15"
+  end
+end
+
+class ViewController
+  include SimpleView::Layout
+
+  def viewDidLoad
+    setup view do
+      label styles: :darkcolor, text: "13 font with dark color"
+      label styles: [:darkcolor, :title], text: "bold 15 font with dark color"
+    end
+  end
+end
+````
 
 ### View anchoring
 
+Position the view without doing a lot of calculation
+
 ````ruby
-SimpleView::Layouts.setup(view) do
+setup view do
   toolbar bottom: 10, left: 10, right: 10, anchors: [:bottom]
 end
 ````
 
 ### Passing in locals
 
-Hash parameters will automatically turns into instance variable within the block
+Reference to the controller/model or other variables in the setup block
 
 ````ruby
-def viewDidLoad
-  SimpleView::Layouts.setup(view, controller: self) do
-    table_view delegate: @controller, dataSource: @controller
+class ViewController
+  include SimpleView::Layout
+
+  def viewDidLoad
+    setup view, controller: self do
+      table_view delegate: controller, dataSource: controller
+    end
   end
 end
 ````
 
 ### View tagging with string
 
-No need to declare ivar, no need to use integer tag, just name your view and access it by the name.
+Tag view with name string and find them with ease
 
 ````ruby
 def viewDidLoad
-  SimpleView::Layouts.setup(view) do
-    label name: "price_label" # give a name to the label
+  setup view do
+    label name: 'desc'
+    label name: 'price'
   end
 end
 
 def someOtherMethod
-  view.subview("price_label") # get the label
+  price_label = view.find('price')
+  desc_label = price_label.sibling('desc')
 end
 ````
