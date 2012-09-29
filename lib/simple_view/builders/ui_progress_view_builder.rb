@@ -15,12 +15,12 @@ module SimpleView
       end
 
       def setProgressTintColor(color)
-        @view.progressTintColor = color_with(color)
+        @view.progressTintColor = color.to_color
       end
       alias_method :setProgress_tint_color, :setProgressTintColor
 
       def setTrackTintColor(color)
-        @view.trackTintColor = color_with(color)
+        @view.trackTintColor = color.to_color
       end
       alias_method :setTrack_tint_color, :setTrackTintColor
     end

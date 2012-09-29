@@ -12,7 +12,7 @@ module SimpleView
       end
 
       def setSelectedImageTintColor(color)
-        @view.selectedImageTintColor = color_with(color)
+        @view.selectedImageTintColor = color.to_color
       end
       alias_method :setSelected_image_tint_color, :setSelectedImageTintColor
     end

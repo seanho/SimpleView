@@ -34,17 +34,17 @@ module SimpleView
       end
 
       def setMinimumTrackTintColor(color)
-        @view.minimumTrackTintColor = color_with(color)
+        @view.minimumTrackTintColor = color.to_color
       end
       alias_method :setMinimum_track_tint_color, :setMinimumTrackTintColor
 
       def setMaximumTrackTintColor(color)
-        @view.maximumTrackTintColor = color_with(color)
+        @view.maximumTrackTintColor = color.to_color
       end
       alias_method :setMaximum_track_tint_color, :setMaximumTrackTintColor
 
       def setThumbTintColor(color)
-        @view.thumbTintColor = color_with(color)
+        @view.thumbTintColor = color.to_color
       end
       alias_method :setThumb_tint_color, :setThumbTintColor
     end

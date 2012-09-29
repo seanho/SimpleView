@@ -7,7 +7,7 @@ module SimpleView
       end
 
       def setSeparatorColor color
-        @view.separatorColor = color_with(color)
+        @view.separatorColor = color.to_color
       end
       alias_method :setSeparator_color, :setSeparatorColor
     end
