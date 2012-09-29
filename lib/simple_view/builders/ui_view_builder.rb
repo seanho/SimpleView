@@ -13,33 +13,58 @@ module Simple
 
     attr_reader :view
 
-    def build(klass, options = {})
-      style = options.delete(:styles)
-      if style
-        predefined = Simple::Styles.for(style)
-        options.merge!(predefined) if predefined
-      end
-      @view = view_for_class(klass, options)
+    def build klass, options = {}
+      options = options_for_class klass, options
+      @view = view_for_class klass, options
 
-      unless options.nil?
+      if options
         options.each do |k,v|
           options[k] = STRUCTS_MAP[v.class].call(v) if STRUCTS_MAP.has_key?(v.class)
         end
-        self.setValuesForKeysWithDictionary(options)
+        setValuesForKeysWithDictionary options
       end
 
       @view
     end
 
-    def view_for_class(klass, options = {})
+    def view_for_class klass, options = {}
       klass.alloc.initWithFrame(CGRectZero)
     end
 
-    def setValue(value, forUndefinedKey:key)
-      @view.setValue(value, forKey: key)
+    def options_for_class klass, options = {}
+      class_style = Simple::Styles.for(klass) || {}
+      custom_styles = options.delete(:styles)
+
+      if custom_styles.is_a?(Symbol)
+        style = Simple::Styles.for(custom_styles)
+        class_style.update(style) if style
+
+      elsif custom_styles.is_a?(Array)
+        custom_styles.each do |custom_style|
+          style = Simple::Styles.for(custom_style)
+          class_style.update(style) if style
+        end
+      end
+
+      class_style.update(options)
+    end
+
+    def setValue value, forUndefinedKey: key
+      @view.setValue value, forKey: key
     end
 
     protected
-    include Simple::Builders::Converters
+
+    def font_with font
+      font.is_a?(String) ? UIFont.parse(font) : font
+    end
+
+    def color_with color
+      color.is_a?(String) ? UIColor.from_html(color) : color
+    end
+
+    def image_with image
+      image.is_a?(String) ? UIImage.imageNamed(image) : image
+    end
   end
 end

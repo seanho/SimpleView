@@ -1,11 +1,13 @@
 module Simple
   class Layouts
+    attr_reader :view
+
     def self.setup view, locals = {}, &block
       layout = Layouts.new view, locals
       layout.instance_eval &block
     end
 
-    def initialize view, locals = {}
+    def initialize view = nil, locals = {}
       @view = view
       @locals = locals
 
@@ -15,10 +17,6 @@ module Simple
           self.instance_variable_set "@#{k}", v
         end
       end
-    end
-
-    def view
-      @view
     end
 
     def add klass, options = {}, &block
@@ -62,12 +60,12 @@ module Simple
   class Styles
     @@repo = {}
 
-    def self.define(name, options = {})
+    def self.define name, options = {}
       existing = @@repo[name] || {}
       @@repo[name] = existing.update(options)
     end
 
-    def self.for(name)
+    def self.for name
       @@repo[name]
     end
   end

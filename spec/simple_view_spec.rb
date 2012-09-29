@@ -1,4 +1,14 @@
-describe "UI" do
+describe "Simple" do
+  describe "Styles" do
+    it "should define a style and retrieve it" do
+      style = {color: :red}
+
+      Simple::Styles.define :test, style
+
+      Simple::Styles.for(:test).should == style
+    end
+  end
+
   describe "Layout" do
     it "should convert locals to instance variables" do
       view = UIView.alloc.init
@@ -32,6 +42,43 @@ describe "UI" do
         view.frame.should == frame
         view.alpha.should == alpha
         view.backgroundColor.should == backgroundColor
+      end
+
+      describe "#add with predefined styles" do
+        it "should add view with default style" do
+          Simple::Styles.define UIView, backgroundColor: UIColor.redColor
+
+          layout = Simple::Layouts.new
+          view = layout.add UIView
+          view.backgroundColor.should == UIColor.redColor
+        end
+
+        it "should add view with custom style" do
+          Simple::Styles.define :blue, backgroundColor: UIColor.blueColor
+
+          layout = Simple::Layouts.new
+          view = layout.add UIView, styles: :blue
+          view.backgroundColor.should == UIColor.blueColor
+        end
+
+        it "should add view with multiple custom styles" do
+          Simple::Styles.define :blue, backgroundColor: UIColor.blueColor
+          Simple::Styles.define :alpha, alpha: 0.5
+
+          layout = Simple::Layouts.new
+          view = layout.add UIView, styles: [:blue, :alpha]
+          view.backgroundColor.should == UIColor.blueColor
+          view.alpha.should == 0.5
+        end
+
+        it "should add view with custom style overriding default style" do
+          Simple::Styles.define UIView, backgroundColor: UIColor.redColor
+          Simple::Styles.define :blue, backgroundColor: UIColor.blueColor
+
+          layout = Simple::Layouts.new
+          view = layout.add UIView, styles: :blue
+          view.backgroundColor.should == UIColor.blueColor
+        end
       end
 
       it "should execute block" do
