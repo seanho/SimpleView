@@ -5,7 +5,7 @@ unless defined?(Motion::Project::Config)
 end
 
 Motion::Project::App.setup do |app|
-  app.files += File.join(File.dirname(__FILE__), 'simple_view/view_proxy.rb')
+  app.files += Dir.glob(File.join(File.dirname(__FILE__), 'simple_view/*.rb'))
   app.files.unshift(File.join(File.dirname(__FILE__), 'simple_view/layout.rb'))
   app.files.unshift(File.join(File.dirname(__FILE__), 'simple_view/styles.rb'))
   app.files.unshift(Dir.glob(File.join(File.dirname(__FILE__), 'simple_view/builders/*.rb')))
