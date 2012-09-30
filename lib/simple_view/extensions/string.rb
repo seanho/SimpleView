@@ -1,7 +1,19 @@
 module SimpleView
   module String
+    def underscore
+      word = self.dup
+      word.gsub!(/::/, '/')
+      word.gsub!(/([A-Z\d]+)([A-Z][a-z])/,'\1_\2')
+      word.gsub!(/([a-z\d])([A-Z])/,'\1_\2')
+      word.tr!("-", "_")
+      word.downcase!
+      word
+    end
+
     def to_color
-      html_colour = self.gsub(%r{[#;]}, '')
+      html_colour = self.dup
+      html_colour.gsub!(%r{[#;]}, '')
+
       case html_colour.size
       when 3
         colours = html_colour.scan(%r{[0-9A-Fa-f]}).map { |el| (el * 2).to_i(16) }
