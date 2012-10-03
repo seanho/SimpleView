@@ -2,12 +2,16 @@ class SimpleViewController < UIViewController
   include SimpleView::Layout
 
   def viewDidLoad
+    super
+    #self.view.translatesAutoresizingMaskIntoConstraints = false
+
     SimpleView::Styles.define :square,
       width: 20,
       height: 20
 
     setup view, controller: self do
       controller.title = "SimpleView Demo"
+      view.backgroundColor = UIColor.whiteColor
 
       rect styles: :square, backgroundColor: "#000", anchors: [:top, :left, :bottom, :right]
 

@@ -26,10 +26,8 @@ module SimpleView
       view
     end
 
-    def invalidate_size
-      f = self.frame
-      max_width = superview ? superview.bounds.size.width : 0
-      max_height = superview ? superview.bounds.size.height : 0
+    def translate_anchors_into_constraints
+      return if superview.nil?
 
       @anchors ||= [:top, :left]
       anchor_top = @anchors.include?(:top)
@@ -37,31 +35,63 @@ module SimpleView
       anchor_bottom = @anchors.include?(:bottom)
       anchor_right = @anchors.include?(:right)
 
-      self.autoresizingMask = UIViewAutoresizingNone
-      self.autoresizingMask |= UIViewAutoresizingFlexibleTopMargin unless anchor_top
-      self.autoresizingMask |= UIViewAutoresizingFlexibleLeftMargin unless anchor_left
-      self.autoresizingMask |= UIViewAutoresizingFlexibleBottomMargin unless anchor_bottom
-      self.autoresizingMask |= UIViewAutoresizingFlexibleRightMargin unless anchor_right
-      self.autoresizingMask |= UIViewAutoresizingFlexibleWidth if anchor_left && anchor_right
-      self.autoresizingMask |= UIViewAutoresizingFlexibleHeight if anchor_top && anchor_bottom
-
       if (anchor_left && anchor_right) || (anchor_left && !@right.nil?)
-        f.size.width = max_width - self.left - @right.to_i
+        superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat("H:|-#{self.left}-[v]-#{self.right}-|",
+          options: 0,
+          metrics: nil,
+          views: {'v' => self})
       elsif anchor_right
-        f.origin.x = max_width - self.width - @right.to_i
+        superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat "H:[v(==#{self.width})]-#{self.right}-|",
+          options: 0,
+          metrics: nil,
+          views: {'v' => self}
       elsif !anchor_left && !anchor_right
-        f.origin.x = max_width / 2 - f.size.width / 2
+        superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat("H:[v(==#{self.width})]",
+          options: 0,
+          metrics: nil,
+          views: {'v' => self})
+        superview.addConstraint NSLayoutConstraint.constraintWithItem self,
+          attribute: NSLayoutAttributeCenterX,
+          relatedBy: NSLayoutRelationEqual,
+          toItem: superview,
+          attribute: NSLayoutAttributeCenterX,
+          multiplier: 1,
+          constant: 0
+      else
+        superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat "H:|-#{self.left}-[v(==#{self.width})]",
+          options: 0,
+          metrics: nil,
+          views: {'v' => self}
       end
 
       if (anchor_top && anchor_bottom) || (anchor_top && !@bottom.nil?)
-        f.size.height = max_height - self.top - @bottom.to_i
+        superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat "V:|-#{self.top}-[v]-#{self.bottom}-|",
+          options: 0,
+          metrics: nil,
+          views: {'v' => self}
       elsif anchor_bottom
-        f.origin.y = max_height - self.height - @bottom.to_i
+        superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat "V:[v(==#{self.height})]-#{self.bottom}-|",
+          options: 0,
+          metrics: nil,
+          views: {'v' => self}
       elsif !anchor_top && !anchor_bottom
-        f.origin.y = max_height / 2 - f.size.height / 2
+        superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat("V:[v(==#{self.height})]",
+          options: 0,
+          metrics: nil,
+          views: {'v' => self})
+        superview.addConstraint NSLayoutConstraint.constraintWithItem self,
+          attribute: NSLayoutAttributeCenterY,
+          relatedBy: NSLayoutRelationEqual,
+          toItem: superview,
+          attribute: NSLayoutAttributeCenterY,
+          multiplier: 1,
+          constant: 0
+      else
+        superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat "V:|-#{self.top}-[v(==#{self.height})]",
+          options: 0,
+          metrics: nil,
+          views: {'v' => self}
       end
-
-      self.frame = f
     end
 
     def top
@@ -78,6 +108,14 @@ module SimpleView
 
     def setLeft value
       self.frame = [[value, self.frame.origin.y], [self.frame.size.width, self.frame.size.height]]
+    end
+
+    def right
+      @right.to_i
+    end
+
+    def bottom
+      @bottom.to_i
     end
 
     def width

@@ -30,6 +30,7 @@ module SimpleView
 
     def add klass, options = {}, &block
       subview = build_view klass, options
+      subview.translatesAutoresizingMaskIntoConstraints = false
 
       @view.addSubview(subview) unless @view.nil?
 
@@ -39,7 +40,7 @@ module SimpleView
       end
 
       subview.sizeToFit if options[:width].nil? && options[:height].nil? && options[:right].nil? && options[:bottom].nil?
-      subview.invalidate_size
+      subview.translate_anchors_into_constraints
       subview
     end
 
