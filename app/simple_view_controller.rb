@@ -13,7 +13,7 @@ class SimpleViewController < UIViewController
     setup view, controller: self do
       controller.title = 'Demo'
 
-      table_view delegate: controller, dataSource: controller, anchors: [:top, :bottom, :right, :left] do
+      table_view delegate: controller, dataSource: controller, anchors: [:all] do
         view.registerClass UITableViewCell, forCellReuseIdentifier: DEFAULT_CELL_ID
       end
     end

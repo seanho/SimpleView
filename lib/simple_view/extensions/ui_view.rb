@@ -30,10 +30,10 @@ module SimpleView
       return if superview.nil?
 
       @anchors ||= [:top, :left]
-      anchor_top = @anchors.include?(:top)
-      anchor_left = @anchors.include?(:left)
-      anchor_bottom = @anchors.include?(:bottom)
-      anchor_right = @anchors.include?(:right)
+      anchor_top = @anchors.include?(:top) || @anchors.include?(:all)
+      anchor_left = @anchors.include?(:left) || @anchors.include?(:all)
+      anchor_bottom = @anchors.include?(:bottom) || @anchors.include?(:all)
+      anchor_right = @anchors.include?(:right) || @anchors.include?(:all)
 
       if (anchor_left && anchor_right) || (anchor_left && !@right.nil?)
         superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat("H:|-#{self.left}-[v]-#{self.right}-|",
