@@ -109,6 +109,10 @@ describe "SimpleView" do
         @proxy = SimpleView::ViewProxy.new
       end
 
+      it "should create UIActionSheet" do
+        @proxy.action_sheet.class.should == UIActionSheet
+      end
+
       it "should create UIActivityIndicatorView" do
         @proxy.activity_indicator_view.class.should == UIActivityIndicatorView
       end
