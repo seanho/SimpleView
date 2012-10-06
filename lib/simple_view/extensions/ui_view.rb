@@ -1,6 +1,7 @@
 module SimpleView
   module UIView
-    attr_accessor :name, :bottom, :right, :anchors
+    attr_accessor :name, :top, :left, :bottom, :right, :width, :height, :anchors
+    attr_accessor :left_to, :right_to, :top_of, :bottom_of
 
     def find name
       subviews.each do |subview|
@@ -30,108 +31,87 @@ module SimpleView
       return if superview.nil?
 
       @anchors ||= [:top, :left]
-      anchor_top = @anchors.include?(:top) || @anchors.include?(:all)
+      translate_horizontal_anchors_into_constraints
+      translate_vertical_anchors_into_constraints
+    end
+
+    def size= value
+      @width = value[0]
+      @height = value[1]
+    end
+
+    private
+
+    def translate_horizontal_anchors_into_constraints
       anchor_left = @anchors.include?(:left) || @anchors.include?(:all)
-      anchor_bottom = @anchors.include?(:bottom) || @anchors.include?(:all)
       anchor_right = @anchors.include?(:right) || @anchors.include?(:all)
 
       if (anchor_left && anchor_right) || (anchor_left && !@right.nil?)
-        superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat("H:|-#{self.left}-[v]-#{self.right}-|",
-          options: 0,
-          metrics: nil,
-          views: {'v' => self})
+        setVisualConstraint "H:|-#{@left.to_i}-[v]-#{@right.to_i}-|"
       elsif anchor_right
-        superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat "H:[v(==#{self.width})]-#{self.right}-|",
-          options: 0,
-          metrics: nil,
-          views: {'v' => self}
+        setVisualConstraint "H:[v(#{@width.to_i})]-#{@right.to_i}-|"
       elsif !anchor_left && !anchor_right
-        superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat("H:[v(==#{self.width})]",
-          options: 0,
-          metrics: nil,
-          views: {'v' => self})
-        superview.addConstraint NSLayoutConstraint.constraintWithItem self,
-          attribute: NSLayoutAttributeCenterX,
-          relatedBy: NSLayoutRelationEqual,
-          toItem: superview,
-          attribute: NSLayoutAttributeCenterX,
-          multiplier: 1,
-          constant: 0
+        if left_to.nil? && right_to.nil?
+          setVisualConstraint "H:[v(#{@width.to_i})]"
+          superview.addConstraint NSLayoutConstraint.constraintWithItem self,
+            attribute: NSLayoutAttributeCenterX,
+            relatedBy: NSLayoutRelationEqual,
+            toItem: superview,
+            attribute: NSLayoutAttributeCenterX,
+            multiplier: 1,
+            constant: 0
+        else
+          setVisualConstraintWith left_to, "H:[v1(#{@width.to_i})]-#{@right.to_i}-[v2]" if left_to
+          setVisualConstraintWith right_to, "H:[v2]-#{@left.to_i}-[v1(#{@width.to_i})]" if right_to
+        end
       else
-        superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat "H:|-#{self.left}-[v(==#{self.width})]",
-          options: 0,
-          metrics: nil,
-          views: {'v' => self}
+        setVisualConstraint "H:|-#{@left.to_i}-[v(#{@width.to_i})]"
       end
+    end
+
+    def translate_vertical_anchors_into_constraints
+      anchor_top = @anchors.include?(:top) || @anchors.include?(:all)
+      anchor_bottom = @anchors.include?(:bottom) || @anchors.include?(:all)
 
       if (anchor_top && anchor_bottom) || (anchor_top && !@bottom.nil?)
-        superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat "V:|-#{self.top}-[v]-#{self.bottom}-|",
-          options: 0,
-          metrics: nil,
-          views: {'v' => self}
+        setVisualConstraint "V:|-#{@top.to_i}-[v]-#{@bottom.to_i}-|"
       elsif anchor_bottom
-        superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat "V:[v(==#{self.height})]-#{self.bottom}-|",
-          options: 0,
-          metrics: nil,
-          views: {'v' => self}
+        setVisualConstraint "V:[v(#{@height.to_i})]-#{@bottom.to_i}-|"
       elsif !anchor_top && !anchor_bottom
-        superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat("V:[v(==#{self.height})]",
-          options: 0,
-          metrics: nil,
-          views: {'v' => self})
-        superview.addConstraint NSLayoutConstraint.constraintWithItem self,
-          attribute: NSLayoutAttributeCenterY,
-          relatedBy: NSLayoutRelationEqual,
-          toItem: superview,
-          attribute: NSLayoutAttributeCenterY,
-          multiplier: 1,
-          constant: 0
+        if top_of.nil? && bottom_of.nil?
+          setVisualConstraint "V:[v(#{@height.to_i})]"
+          superview.addConstraint NSLayoutConstraint.constraintWithItem self,
+            attribute: NSLayoutAttributeCenterY,
+            relatedBy: NSLayoutRelationEqual,
+            toItem: superview,
+            attribute: NSLayoutAttributeCenterY,
+            multiplier: 1,
+            constant: 0
+        else
+          setVisualConstraintWith top_of, "V:[v1(#{@height.to_i})]-#{@bottom.to_i}-[v2]" if top_of
+          setVisualConstraintWith bottom_of, "V:[v2]-#{@top.to_i}-[v1(#{@height.to_i})]" if bottom_of
+        end
       else
-        superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat "V:|-#{self.top}-[v(==#{self.height})]",
-          options: 0,
-          metrics: nil,
-          views: {'v' => self}
+        setVisualConstraint "V:|-#{@top.to_i}-[v(#{@height.to_i})]"
       end
     end
 
-    def top
-      self.frame.origin.y
+    def setVisualConstraint format
+      superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat(format,
+        options: 0,
+        metrics: nil,
+        views: {'v' => self})
     end
 
-    def setTop value
-      self.frame = [[self.frame.origin.x, value], [self.frame.size.width, self.frame.size.height]]
+    def setVisualConstraintWith another_view, format
+      superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat(format,
+        options: 0,
+        metrics: nil,
+        views: {'v1' => self, 'v2' => view_instance_of(another_view)})
     end
 
-    def left
-      self.frame.origin.x
-    end
-
-    def setLeft value
-      self.frame = [[value, self.frame.origin.y], [self.frame.size.width, self.frame.size.height]]
-    end
-
-    def right
-      @right.to_i
-    end
-
-    def bottom
-      @bottom.to_i
-    end
-
-    def width
-      self.frame.size.width
-    end
-
-    def setWidth value
-      self.frame = [[self.frame.origin.x, self.frame.origin.y], [value, self.frame.size.height]]
-    end
-
-    def height
-      self.frame.size.height
-    end
-
-    def setHeight value
-      self.frame = [[self.frame.origin.x, self.frame.origin.y], [self.frame.size.width, value]]
+    def view_instance_of view
+      view.is_a?(String) ? closest(view) : view
     end
   end
 end

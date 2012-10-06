@@ -7,7 +7,8 @@ class SimpleViewController < UIViewController
     super
 
     @demos = [
-      {caption: 'View Anchoring', controller: ViewAnchoringController}
+      {caption: 'View Anchoring', controller: ViewAnchoringController},
+      {caption: 'Relative Views', controller: RelativeViewController}
     ]
 
     setup view, controller: self do
