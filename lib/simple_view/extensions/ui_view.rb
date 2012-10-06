@@ -40,6 +40,20 @@ module SimpleView
       @height = value[1]
     end
 
+    def add_visual_constraint format
+      superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat(format,
+        options: 0,
+        metrics: nil,
+        views: {'v' => self})
+    end
+
+    def add_visual_constraint_with another_view, format
+      superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat(format,
+        options: 0,
+        metrics: nil,
+        views: {'v1' => self, 'v2' => view_instance_of(another_view)})
+    end
+
     private
 
     def translate_horizontal_anchors_into_constraints
@@ -47,12 +61,16 @@ module SimpleView
       anchor_right = @anchors.include?(:right) || @anchors.include?(:all)
 
       if (anchor_left && anchor_right) || (anchor_left && !@right.nil?)
-        setVisualConstraint "H:|-#{@left.to_i}-[v]-#{@right.to_i}-|"
+        add_visual_constraint "H:|-#{@left.to_i}-[v]-#{@right.to_i}-|"
       elsif anchor_right
-        setVisualConstraint "H:[v(#{@width.to_i})]-#{@right.to_i}-|"
+        if @right_to
+          add_visual_constraint_with @right_to, "H:[v2]-#{@left.to_i}-[v1]-#{@right.to_i}-|"
+        else
+          add_visual_constraint "H:[v(#{@width.to_i})]-#{@right.to_i}-|"
+        end
       elsif !anchor_left && !anchor_right
-        if left_to.nil? && right_to.nil?
-          setVisualConstraint "H:[v(#{@width.to_i})]"
+        if @left_to.nil? && @right_to.nil?
+          add_visual_constraint "H:[v(#{@width.to_i})]"
           superview.addConstraint NSLayoutConstraint.constraintWithItem self,
             attribute: NSLayoutAttributeCenterX,
             relatedBy: NSLayoutRelationEqual,
@@ -61,11 +79,15 @@ module SimpleView
             multiplier: 1,
             constant: 0
         else
-          setVisualConstraintWith left_to, "H:[v1(#{@width.to_i})]-#{@right.to_i}-[v2]" if left_to
-          setVisualConstraintWith right_to, "H:[v2]-#{@left.to_i}-[v1(#{@width.to_i})]" if right_to
+          add_visual_constraint_with @left_to, "H:[v1(#{@width.to_i})]-#{@right.to_i}-[v2]" if @left_to
+          add_visual_constraint_with @right_to, "H:[v2]-#{@left.to_i}-[v1(#{@width.to_i})]" if @right_to
         end
       else
-        setVisualConstraint "H:|-#{@left.to_i}-[v(#{@width.to_i})]"
+        if @left_to
+          add_visual_constraint_with @left_to, "H:|-#{@left.to_i}-[v1]-#{@right.to_i}-[v2]"
+        else
+          add_visual_constraint "H:|-#{@left.to_i}-[v(#{@width.to_i})]"
+        end
       end
     end
 
@@ -74,12 +96,16 @@ module SimpleView
       anchor_bottom = @anchors.include?(:bottom) || @anchors.include?(:all)
 
       if (anchor_top && anchor_bottom) || (anchor_top && !@bottom.nil?)
-        setVisualConstraint "V:|-#{@top.to_i}-[v]-#{@bottom.to_i}-|"
+        add_visual_constraint "V:|-#{@top.to_i}-[v]-#{@bottom.to_i}-|"
       elsif anchor_bottom
-        setVisualConstraint "V:[v(#{@height.to_i})]-#{@bottom.to_i}-|"
+        if @bottom_of
+          add_visual_constraint_with @bottom_of, "V:[v2]-#{@top.to_i}-[v1]-#{@bottom.to_i}-|"
+        else
+          add_visual_constraint "V:[v(#{@height.to_i})]-#{@bottom.to_i}-|"
+        end
       elsif !anchor_top && !anchor_bottom
-        if top_of.nil? && bottom_of.nil?
-          setVisualConstraint "V:[v(#{@height.to_i})]"
+        if @top_of.nil? && @bottom_of.nil?
+          add_visual_constraint "V:[v(#{@height.to_i})]"
           superview.addConstraint NSLayoutConstraint.constraintWithItem self,
             attribute: NSLayoutAttributeCenterY,
             relatedBy: NSLayoutRelationEqual,
@@ -88,26 +114,16 @@ module SimpleView
             multiplier: 1,
             constant: 0
         else
-          setVisualConstraintWith top_of, "V:[v1(#{@height.to_i})]-#{@bottom.to_i}-[v2]" if top_of
-          setVisualConstraintWith bottom_of, "V:[v2]-#{@top.to_i}-[v1(#{@height.to_i})]" if bottom_of
+          add_visual_constraint_with @top_of, "V:[v1(#{@height.to_i})]-#{@bottom.to_i}-[v2]" if @top_of
+          add_visual_constraint_with @bottom_of, "V:[v2]-#{@top.to_i}-[v1(#{@height.to_i})]" if @bottom_of
         end
       else
-        setVisualConstraint "V:|-#{@top.to_i}-[v(#{@height.to_i})]"
+        if @top_of
+          add_visual_constraint_with @top_of, "V:|-#{@top.to_i}-[v1]-#{@bottom.to_i}-[v2]"
+        else
+          add_visual_constraint "V:|-#{@top.to_i}-[v(#{@height.to_i})]"
+        end
       end
-    end
-
-    def setVisualConstraint format
-      superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat(format,
-        options: 0,
-        metrics: nil,
-        views: {'v' => self})
-    end
-
-    def setVisualConstraintWith another_view, format
-      superview.addConstraints NSLayoutConstraint.constraintsWithVisualFormat(format,
-        options: 0,
-        metrics: nil,
-        views: {'v1' => self, 'v2' => view_instance_of(another_view)})
     end
 
     def view_instance_of view

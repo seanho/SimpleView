@@ -20,6 +20,7 @@ module SimpleView
       when 6
         colours = html_colour.scan(%r<[0-9A-Fa-f]{2}>).map { |el| el.to_i(16) }
       else
+        return ::UIColor.clearColor if html_colour == 'transparent' || 'clear'
         raise ArgumentError
       end
 
