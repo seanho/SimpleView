@@ -121,6 +121,14 @@ describe "SimpleView" do
         @proxy.button.class.should == UIRoundedRectButton
       end
 
+      it "should create UICollectionView" do
+        @proxy.collection_view.class.should == UICollectionView
+      end
+
+      it "should create UICollectionViewCell" do
+        @proxy.collection_view_cell.class.should == UICollectionViewCell
+      end
+
       it "should create UIDatePicker" do
         @proxy.date_picker.class.should == UIDatePicker
       end
