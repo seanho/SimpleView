@@ -43,7 +43,7 @@ module SimpleView
       subview
     end
 
-    [::UIActivityIndicatorView, ::UIButton, ::UIDatePicker, ::UIImageView, ::UILabel, ::UIPageControl,
+    [::UIActionSheet, ::UIActivityIndicatorView, ::UIButton, ::UIDatePicker, ::UIImageView, ::UILabel, ::UIPageControl,
       ::UIPickerView, ::UIProgressView, ::UIScrollView, ::UISearchBar, ::UISegmentedControl, ::UISlider,
       ::UIStepper, ::UISwitch, ::UITabBar, ::UITableView, ::UITableViewCell, ::UITextField, ::UITextView,
       ::UIToolbar, ::UIWebView].each do |klass|
