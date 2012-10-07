@@ -35,7 +35,7 @@ class YourViewController < UIViewController
     setup content_view do
       label width: 200, height: 20, text: "Choose your lucky word", color: "#eee"
       image_view top: 50, left: 50, right: 50, image: "sample.jpg"
-      toolbar anchors: [:bottom]
+      toolbar height: 44, bottom: 0, left: 0, right: 0
     end
   end
 end
@@ -66,8 +66,11 @@ def viewDidLoad
 end
 ````
 
+- UIActionSheet via `action_sheet`
 - UIActivityIndicatorView via `activity_indicator`
 - UIButton via `button`
+- UICollectionView via `collection_view`
+- UICollectionViewCell via `collection_view_cell`
 - UIDatePicker via `date_picker`
 - UIImageView via `image_view`
 - UILabel via `label`
@@ -157,7 +160,7 @@ Position the view without doing a lot of calculation
 
 ````ruby
 setup view do
-  toolbar bottom: 10, left: 10, right: 10, anchors: [:bottom]
+  toolbar height: 44, bottom: 10, left: 10, right: 10
 end
 ````
 

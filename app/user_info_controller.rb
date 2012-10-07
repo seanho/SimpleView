@@ -15,7 +15,7 @@ class UserInfoController < UIViewController
     setup view, controller: self do
       controller.title = 'User Info'
 
-      table_view delegate: controller, dataSource: controller, style: UITableViewStyleGrouped, anchors: [:all] do
+      table_view delegate: controller, dataSource: controller, style: UITableViewStyleGrouped, top: 0, left: 0, bottom: 0, right: 0 do
         view.tableHeaderView = UserInfoHeader.alloc.initWithFrame [[0, 0], [UIViewNoIntrinsicMetric, 80]]
       end
     end
@@ -54,11 +54,11 @@ class UserInfoHeader < UIView
 
         label name: 'full_name', text: 'Nyan Cat', font: '16 bold', backgroundColor: 'clear',
           height: 20, top: 20, left: 10, right: 10,
-          anchors: [:top, :right], right_to: 'avatar'
+          left_is: 'avatar'
 
         label text: 'Internet Meme', font: '14', textColor: '#666', backgroundColor: 'clear',
           height: 18, top: 5, left: 10, right: 10,
-          anchors: [:right], right_to: 'avatar', bottom_of: 'full_name'
+          left_is: 'avatar', top_is: 'full_name'
       end
     end
     self
