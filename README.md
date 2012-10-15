@@ -66,6 +66,7 @@ def viewDidLoad
 end
 ````
 
+- UIActionSheet via `action_sheet`
 - UIActivityIndicatorView via `activity_indicator`
 - UIButton via `button`
 - UIDatePicker via `date_picker`

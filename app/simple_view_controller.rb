@@ -1,27 +1,44 @@
 class SimpleViewController < UIViewController
   include SimpleView::Layout
 
+  DEFAULT_CELL_ID = 'DefaultCellId'
+
   def viewDidLoad
-    SimpleView::Styles.define :square,
-      width: 20,
-      height: 20
+    super
+
+    @demos = [
+      {caption: 'View Anchoring', controller: ViewAnchoringController}
+    ]
 
     setup view, controller: self do
-      controller.title = "SimpleView Demo"
+      controller.title = 'Demo'
 
-      rect styles: :square, backgroundColor: "#000", top: 0, left: 0, bottom: 0, right: 0
-
-      rect styles: :square, backgroundColor: "#990000", top: 0, left: 0
-      rect styles: :square, backgroundColor: "#993300", top: 0
-      rect styles: :square, backgroundColor: "#CC9900", top: 0, right: 0
-
-      rect styles: :square, backgroundColor: "#006600", left: 0
-      rect styles: :square, backgroundColor: "#336666"
-      rect styles: :square, backgroundColor: "#0033FF", right: 0
-
-      rect styles: :square, backgroundColor: "#000099", bottom: 0, left: 0
-      rect styles: :square, backgroundColor: "#660099", bottom: 0
-      rect styles: :square, backgroundColor: "#990066", bottom: 0, right: 0
+      table_view delegate: controller, dataSource: controller, top: 0, left: 0, bottom: 0, right: 0 do
+        view.registerClass UITableViewCell, forCellReuseIdentifier: DEFAULT_CELL_ID
+      end
     end
+  end
+
+  # UITableView dataSource and delegate
+
+  def numberOfSectionsInTableView tableView
+    1
+  end
+
+  def tableView tableView, numberOfRowsInSection: section
+    @demos.size
+  end
+
+  def tableView tableView, cellForRowAtIndexPath: indexPath
+    cell = tableView.dequeueReusableCellWithIdentifier DEFAULT_CELL_ID
+    cell.textLabel.text = @demos[indexPath.row][:caption]
+    cell
+  end
+
+  def tableView tableView, didSelectRowAtIndexPath: indexPath
+    tableView.deselectRowAtIndexPath indexPath, animated: true
+
+    controller = @demos[indexPath.row][:controller].alloc.init
+    navigationController.pushViewController controller, animated: true
   end
 end
