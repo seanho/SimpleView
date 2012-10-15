@@ -40,13 +40,12 @@ describe "SimpleView" do
 
     describe "#add" do
       it "should add view with options" do
-        frame = CGRectMake(0, 0, 10, 10)
         alpha = 0.5
         backgroundColor = UIColor.redColor
 
         proxy = SimpleView::ViewProxy.new
-        view = proxy.add UIView, frame: frame, alpha: alpha, backgroundColor: backgroundColor
-        view.frame.should == frame
+        view = proxy.add UIView, top: 0, left: 0, width: 10, height: 10, alpha: alpha, backgroundColor: backgroundColor
+        view.frame.should == CGRectMake(0, 0, 10, 10)
         view.alpha.should == alpha
         view.backgroundColor.should == backgroundColor
       end

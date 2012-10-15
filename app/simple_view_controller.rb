@@ -9,19 +9,19 @@ class SimpleViewController < UIViewController
     setup view, controller: self do
       controller.title = "SimpleView Demo"
 
-      rect styles: :square, backgroundColor: "#000", anchors: [:top, :left, :bottom, :right]
+      rect styles: :square, backgroundColor: "#000", top: 0, left: 0, bottom: 0, right: 0
 
-      rect styles: :square, backgroundColor: "#990000", anchors: [:top, :left]
-      rect styles: :square, backgroundColor: "#993300", anchors: [:top]
-      rect styles: :square, backgroundColor: "#CC9900", anchors: [:top, :right]
+      rect styles: :square, backgroundColor: "#990000", top: 0, left: 0
+      rect styles: :square, backgroundColor: "#993300", top: 0
+      rect styles: :square, backgroundColor: "#CC9900", top: 0, right: 0
 
-      rect styles: :square, backgroundColor: "#006600", anchors: [:left]
-      rect styles: :square, backgroundColor: "#336666", anchors: []
-      rect styles: :square, backgroundColor: "#0033FF", anchors: [:right]
+      rect styles: :square, backgroundColor: "#006600", left: 0
+      rect styles: :square, backgroundColor: "#336666"
+      rect styles: :square, backgroundColor: "#0033FF", right: 0
 
-      rect styles: :square, backgroundColor: "#000099", anchors: [:bottom, :left]
-      rect styles: :square, backgroundColor: "#660099", anchors: [:bottom]
-      rect styles: :square, backgroundColor: "#990066", anchors: [:bottom, :right]
+      rect styles: :square, backgroundColor: "#000099", bottom: 0, left: 0
+      rect styles: :square, backgroundColor: "#660099", bottom: 0
+      rect styles: :square, backgroundColor: "#990066", bottom: 0, right: 0
     end
   end
 end
