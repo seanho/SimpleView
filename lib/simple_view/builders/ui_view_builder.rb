@@ -1,8 +1,6 @@
 module SimpleView
   module Builders
     class UIViewBuilder
-      include SimpleView::Builders::HasBackgroundColor
-
       STRUCTS_MAP = {
         CGAffineTransform   => Proc.new {|v| NSValue.valueWithCGAffineTransform(v) },
         CGPoint             => Proc.new {|v| NSValue.valueWithCGPoint(v) },
@@ -34,6 +32,11 @@ module SimpleView
       def setValue value, forUndefinedKey: key
         @view.setValue value, forKey: key
       end
+
+      def setBackgroundColor(color)
+        @view.backgroundColor = color.to_color
+      end
+      alias_method :setBackground_color, :setBackgroundColor
     end
   end
 end
