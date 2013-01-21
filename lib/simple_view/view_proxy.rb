@@ -16,6 +16,7 @@ module SimpleView
 
     def build_view klass, options = {}
       builder_class = "#{klass}Builder"
+      options = extended_options_for_class klass, options
 
       if SimpleView::Builders.const_defined? builder_class
         SimpleView::Builders.const_get(builder_class).new.build klass, options
@@ -26,6 +27,24 @@ module SimpleView
           SimpleView::Builders::UIViewBuilder.new.build klass, options
         end
       end
+    end
+
+    def extended_options_for_class klass, options = {}
+      class_style = SimpleView::Styles.for(klass) || {}
+      custom_styles = options.delete(:styles)
+
+      if custom_styles.is_a?(Symbol)
+        style = SimpleView::Styles.for(custom_styles)
+        class_style.update(style) if style
+
+      elsif custom_styles.is_a?(Array)
+        custom_styles.each do |custom_style|
+          style = SimpleView::Styles.for(custom_style)
+          class_style.update(style) if style
+        end
+      end
+
+      class_style.update(options)
     end
 
     def add klass, options = {}, &block

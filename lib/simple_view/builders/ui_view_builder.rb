@@ -15,7 +15,6 @@ module SimpleView
       attr_reader :view
 
       def build klass, options = {}
-        options = options_for_class klass, options
         @view = view_for_class klass, options
 
         if options
@@ -30,24 +29,6 @@ module SimpleView
 
       def view_for_class klass, options = {}
         klass.alloc.initWithFrame(CGRectZero)
-      end
-
-      def options_for_class klass, options = {}
-        class_style = SimpleView::Styles.for(klass) || {}
-        custom_styles = options.delete(:styles)
-
-        if custom_styles.is_a?(Symbol)
-          style = SimpleView::Styles.for(custom_styles)
-          class_style.update(style) if style
-
-        elsif custom_styles.is_a?(Array)
-          custom_styles.each do |custom_style|
-            style = SimpleView::Styles.for(custom_style)
-            class_style.update(style) if style
-          end
-        end
-
-        class_style.update(options)
       end
 
       def setValue value, forUndefinedKey: key
