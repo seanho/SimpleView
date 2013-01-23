@@ -25,14 +25,6 @@ module SimpleView
         end
         image.nil? ? nil : image.to_image
       end
-
-      def setImage(image)
-        @view.image = image.to_image
-      end
-
-      def setHighlightedImage(image)
-        @view.highlightedImage = image.to_image
-      end
     end
   end
 end

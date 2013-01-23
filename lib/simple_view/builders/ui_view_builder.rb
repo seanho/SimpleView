@@ -1,12 +1,6 @@
 module SimpleView
   module Builders
     class UIViewBuilder
-      include HasBackgroundColor
-      include HasColor
-      include HasFont
-      include HasTextColor
-      include HasTintColor
-
       STRUCTS_MAP = {
         CGAffineTransform   => Proc.new {|v| NSValue.valueWithCGAffineTransform(v) },
         CGPoint             => Proc.new {|v| NSValue.valueWithCGPoint(v) },
@@ -21,14 +15,18 @@ module SimpleView
       def build klass, options = {}
         @view = view_for_class klass, options
 
-        if options
-          options.each do |k,v|
-            options[k] = STRUCTS_MAP[v.class].call(v) if STRUCTS_MAP.has_key?(v.class)
-          end
+        if !options.nil?
+          convert_primitives_to_objects_in_hash options
           setValuesForKeysWithDictionary options
         end
 
         @view
+      end
+
+      def convert_primitives_to_objects_in_hash options
+        options.each do |k,v|
+          options[k] = STRUCTS_MAP[v.class].call(v) if STRUCTS_MAP.has_key?(v.class)
+        end
       end
 
       def view_for_class klass, options = {}
@@ -36,42 +34,18 @@ module SimpleView
       end
 
       def setValue value, forUndefinedKey: key
-        @view.setValue value, forKey: key
-      end
-    end
+        k = key.downcase
 
-    module HasBackgroundColor
-      def setBackgroundColor color
-        @view.backgroundColor = color.to_color
+        if k.end_with?('color')
+          @view.setValue value.to_color, forKey: key
+        elsif k.end_with('font')
+          @view.setValue value.to_font, forKey: key
+        elsif k.end_with('image')
+          @view.setValue value.to_image, forKey: key
+        else
+          @view.setValue value, forKey: key
+        end
       end
-      alias_method :setBackground_color, :setBackgroundColor
-    end
-
-    module HasColor
-      def setColor color
-        @view.color = color.to_color
-      end
-    end
-
-    module HasFont
-      def setFont font
-        @view.font = font.to_font
-      end
-    end
-
-    module HasTextColor
-      def setTextColor color
-        @view.textColor = color.to_color
-      end
-      alias_method :setText_color, :setTextColor
-      alias_method :setColor, :setTextColor
-    end
-
-    module HasTintColor
-      def setTintColor color
-        @view.tintColor = color.to_color
-      end
-      alias_method :setTint_color, :setTintColor
     end
   end
 end
