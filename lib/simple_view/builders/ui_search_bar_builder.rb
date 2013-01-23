@@ -1,8 +1,6 @@
 module SimpleView
   module Builders
     class UISearchBarBuilder < UIViewBuilder
-      include SimpleView::Builders::HasTintColor
-
       def setBackgroundImage(image)
         @view.backgroundImage = image.to_image
       end

@@ -1,9 +1,6 @@
 module SimpleView
   module Builders
     class UILabelBuilder < UIViewBuilder
-      include SimpleView::Builders::HasFont
-      include SimpleView::Builders::HasTextColor
-
       def setHighlightedTextColor(color)
         @view.highlightedTextColor = color.to_color
       end

@@ -1,8 +1,6 @@
 module SimpleView
   module Builders
     class UISegmentedControlBuilder < UIControlBuilder
-      include SimpleView::Builders::HasTintColor
-
       def view_for_class(klass, options = {})
         items = options.delete(:items) || []
         klass.alloc.initWithItems(items)

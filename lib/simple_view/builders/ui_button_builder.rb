@@ -1,8 +1,6 @@
 module SimpleView
   module Builders
     class UIButtonBuilder < UIControlBuilder
-      include SimpleView::Builders::HasTintColor
-
       def view_for_class(klass, options = {})
         button_type = options.delete(:buttonType) || options.delete(:button_type) || UIButtonTypeRoundedRect
         klass.buttonWithType(button_type)
