@@ -1,5 +1,5 @@
 module SimpleView
-  module UIView
+  module UIViewHelpers
     attr_accessor :name, :top, :left, :bottom, :right
 
     def find name
@@ -92,4 +92,4 @@ module SimpleView
   end
 end
 
-UIView.send(:include, SimpleView::UIView)
+UIView.send(:include, SimpleView::UIViewHelpers)
