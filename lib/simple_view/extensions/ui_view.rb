@@ -29,20 +29,20 @@ module SimpleView
     end
 
     module Dimensions
-      def top
-        self.frame.origin.top
-      end
-
-      def setTop value
-        self.frame = [[self.frame.origin.x, value], [self.frame.size.width, self.frame.size.height]]
-      end
-
       def left
-        self.frame.origin.left
+        self.frame.origin.x
       end
 
       def setLeft value
         self.frame = [[value, self.frame.origin.y], [self.frame.size.width, self.frame.size.height]]
+      end
+
+      def top
+        self.frame.origin.y
+      end
+
+      def setTop value
+        self.frame = [[self.frame.origin.x, value], [self.frame.size.width, self.frame.size.height]]
       end
 
       def width

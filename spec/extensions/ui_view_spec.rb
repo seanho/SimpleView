@@ -14,26 +14,10 @@ describe "SimpleView::UIView" do
       view.left.should == 10
     end
 
-    it "should set right" do
-      superview = UIView.alloc.initWithFrame(CGRectMake(0, 0, 100, 100))
-      view = UIView.alloc.initWithFrame(CGRectZero)
-      superview.addSubview(view)
-      view.right = 10
-      view.right.should == 10
-    end
-
     it "should set top" do
       view = UIView.alloc.initWithFrame(CGRectZero)
       view.top = 11
       view.top.should == 11
-    end
-
-    it "should set bottom" do
-      superview = UIView.alloc.initWithFrame(CGRectMake(0, 0, 100, 100))
-      view = UIView.alloc.initWithFrame(CGRectZero)
-      superview.addSubview(view)
-      view.bottom = 10
-      view.bottom.should == 10
     end
 
     it "should set width" do

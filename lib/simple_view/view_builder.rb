@@ -3,8 +3,21 @@ module SimpleView
     attr_reader :view
     attr_accessor :top, :left, :bottom, :right, :width, :height
 
-    def self.view_for klass, bounds = CGRectZero, options = {}
-      builder = ViewBuilder.new(klass, options)
+    # first args (optional): bounds
+    # second args (optional): options
+    def self.view_for klass, *args
+      if args.nil? || args.size == 0
+        bounds = CGRectZero
+        options = {}
+      elsif args[0].is_a?(Hash)
+        bounds = CGRectZero
+        options = args[0]
+      else
+        bounds = args[0]
+        options = args.size > 1 ? args[1] : {}
+      end
+
+      builder = ViewBuilder.new klass, options
       builder.size_within bounds
       builder.view
     end

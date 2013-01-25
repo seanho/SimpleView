@@ -15,7 +15,8 @@ module SimpleView
     end
 
     def add klass, options = {}, &block
-      subview = ViewBuilder.view_for klass, view.bounds, options
+      bounds = view.nil? ? CGRectZero : view.bounds
+      subview = ViewBuilder.view_for klass, bounds, options
       view.addSubview(subview) unless view.nil?
 
       if block_given?
