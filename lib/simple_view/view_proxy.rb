@@ -21,7 +21,7 @@ module SimpleView
 
       if block_given?
         child_layout = ViewProxy.new subview, locals
-        child_layout.instance_eval &block
+        child_layout.instance_exec subview, &block
       end
 
       subview
