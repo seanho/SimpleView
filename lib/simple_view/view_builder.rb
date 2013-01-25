@@ -1,9 +1,12 @@
 module SimpleView
   class ViewBuilder
     attr_reader :view
+    attr_accessor :top, :left, :bottom, :right, :width, :height
 
-    def self.view_for klass, options = {}
-      ViewBuilder.new(klass, options).view
+    def self.view_for klass, bounds = CGRectZero, options = {}
+      builder = ViewBuilder.new(klass, options)
+      builder.size_within bounds
+      builder.view
     end
 
     def initialize klass, options = {}
@@ -11,10 +14,7 @@ module SimpleView
       convert_primitives_to_objects_in_hash options
 
       @view = view_for_class klass, klass, options
-
       setValuesForKeysWithDictionary options
-
-      @view
     end
 
     def convert_primitives_to_objects_in_hash options
@@ -49,6 +49,55 @@ module SimpleView
       end
     end
 
+    def size_within bounds
+      frame = @view.frame
+
+      if width.nil? && height.nil? && right.nil? && bottom.nil?
+        @view.sizeToFit
+      else
+        max_width = bounds.size.width
+        max_height = bounds.size.height
+
+        @view.autoresizingMask = UIViewAutoresizingNone
+        @view.autoresizingMask |= UIViewAutoresizingFlexibleTopMargin if top.nil?
+        @view.autoresizingMask |= UIViewAutoresizingFlexibleLeftMargin if left.nil?
+        @view.autoresizingMask |= UIViewAutoresizingFlexibleBottomMargin if bottom.nil?
+        @view.autoresizingMask |= UIViewAutoresizingFlexibleRightMargin if right.nil?
+        @view.autoresizingMask |= UIViewAutoresizingFlexibleWidth if !left.nil? && !right.nil?
+        @view.autoresizingMask |= UIViewAutoresizingFlexibleHeight if !top.nil? && !bottom.nil?
+
+        if !left.nil? && !right.nil?
+          frame.origin.x = left
+          frame.size.width = max_width - left - right
+        elsif !right.nil?
+          frame.origin.x = max_width - width - right
+          frame.size.width = width
+        elsif !left.nil?
+          frame.origin.x = left
+          frame.size.width = width
+        else
+          frame.origin.x = max_width / 2 - width / 2
+          frame.size.width = width
+        end
+
+        if !top.nil? && !bottom.nil?
+          frame.origin.y = top
+          frame.size.height = max_height - top - bottom
+        elsif !bottom.nil?
+          frame.origin.y = max_height - height - bottom
+          frame.size.height = height
+        elsif !top.nil?
+          frame.origin.y = top
+          frame.size.height = height
+        else
+          frame.origin.y = max_height / 2 - height / 2
+          frame.size.height = height
+        end
+
+        @view.frame = frame
+      end
+    end
+
     def setValue value, forUndefinedKey: key
       if key.end_with?('Color') || key.end_with?('color')
         view.setValue value.to_color, forKey: key
@@ -59,6 +108,30 @@ module SimpleView
       else
         view.setValue value, forKey: key
       end
+    end
+
+    def setTop value
+      @top = value
+    end
+
+    def setLeft value
+      @left = value
+    end
+
+    def setBottom value
+      @bottom = value
+    end
+
+    def setRight value
+      @right = value
+    end
+
+    def setWidth value
+      @width = value
+    end
+
+    def setHeight value
+      @height = value
     end
 
     def setBackground_color color

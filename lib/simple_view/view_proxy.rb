@@ -15,8 +15,7 @@ module SimpleView
     end
 
     def add klass, options = {}, &block
-      subview = ViewBuilder.view_for klass, options
-
+      subview = ViewBuilder.view_for klass, view.bounds, options
       view.addSubview(subview) unless view.nil?
 
       if block_given?
@@ -24,8 +23,6 @@ module SimpleView
         child_layout.instance_eval &block
       end
 
-      subview.sizeToFit if options[:width].nil? && options[:height].nil? && options[:right].nil? && options[:bottom].nil?
-      subview.invalidate_size
       subview
     end
 
