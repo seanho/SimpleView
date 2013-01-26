@@ -1,4 +1,4 @@
-describe "SimpleView::UIColor" do
+describe "SimpleView::UIColorExtensions" do
   describe "#to_color" do
     it "should return self" do
       color = UIColor.redColor

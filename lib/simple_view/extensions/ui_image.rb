@@ -1,9 +1,9 @@
 module SimpleView
-  module UIImage
+  module UIImageExtensions
     def to_image
       self
     end
   end
 end
 
-UIImage.send(:include, SimpleView::UIImage)
+UIImage.send(:include, SimpleView::UIImageExtensions)

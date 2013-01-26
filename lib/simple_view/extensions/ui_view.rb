@@ -1,5 +1,5 @@
 module SimpleView
-  module UIViewHelpers
+  module UIViewExtensions
     module Traversing
       attr_accessor :name
 
@@ -64,5 +64,5 @@ module SimpleView
   end
 end
 
-UIView.send(:include, SimpleView::UIViewHelpers::Traversing)
-UIView.send(:include, SimpleView::UIViewHelpers::Dimensions)
+UIView.send(:include, SimpleView::UIViewExtensions::Traversing)
+UIView.send(:include, SimpleView::UIViewExtensions::Dimensions)

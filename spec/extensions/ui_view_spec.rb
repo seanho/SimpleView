@@ -1,4 +1,4 @@
-describe "SimpleView::UIView" do
+describe "SimpleView::UIViewExtensions" do
   describe "name accessor" do
     it "should get and set view name" do
       view = UIView.alloc.initWithFrame(CGRectZero)

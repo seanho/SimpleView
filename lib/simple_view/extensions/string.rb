@@ -1,5 +1,5 @@
 module SimpleView
-  module String
+  module StringExtensions
     def underscore
       word = self.dup
       word.gsub!(/::/, '/')
@@ -62,4 +62,4 @@ module SimpleView
   end
 end
 
-String.send(:include, SimpleView::String)
+String.send(:include, SimpleView::StringExtensions)

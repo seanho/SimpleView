@@ -1,4 +1,4 @@
-describe "SimpleView::UIFont" do
+describe "SimpleView::UIFontExtensions" do
   describe "#to_font" do
     it "should return self" do
       font = UIFont.systemFontOfSize(13)

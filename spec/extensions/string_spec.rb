@@ -1,4 +1,4 @@
-describe "SimpleView::String" do
+describe "SimpleView::StringExtensions" do
   describe "#to_color" do
     it "should return color by hex code" do
       "#f00".to_color.should == UIColor.redColor
