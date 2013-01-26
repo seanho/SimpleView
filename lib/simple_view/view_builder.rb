@@ -140,6 +140,8 @@ module SimpleView
         view.setValue value.to_font, forKey: key
       elsif key.end_with?('Image') || key.end_with?('image')
         view.setValue value.to_image, forKey: key
+      elsif key == 'layer'
+        view.layer.setValuesForKeysWithDictionary value
       else
         view.setValue value, forKey: key
       end
