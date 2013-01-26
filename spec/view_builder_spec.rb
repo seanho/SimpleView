@@ -4,6 +4,38 @@ describe "SimpleView::ViewBuilder" do
       SimpleView::ViewBuilder.view_for(UIView).class.should == UIView
     end
 
+    describe "#size_within" do
+      it "should set width by percentage" do
+        view = SimpleView::ViewBuilder.view_for UIView, CGRectMake(0, 0, 320, 480), width: 100.percent
+        view.width.should == 320
+      end
+
+      it "should set width by value" do
+        view = SimpleView::ViewBuilder.view_for UIView, CGRectMake(0, 0, 320, 480), width: 100
+        view.width.should == 100
+      end
+
+      it "should set width by left and right" do
+        view = SimpleView::ViewBuilder.view_for UIView, CGRectMake(0, 0, 320, 480), left: 10, right: 20
+        view.width.should == 290
+      end
+
+      it "should set height by percentage" do
+        view = SimpleView::ViewBuilder.view_for UIView, CGRectMake(0, 0, 320, 480), height: 100.percent
+        view.height.should == 480
+      end
+
+      it "should set height by value" do
+        view = SimpleView::ViewBuilder.view_for UIView, CGRectMake(0, 0, 320, 480), height: 100
+        view.height.should == 100
+      end
+
+      it "should set height by top and bottom" do
+        view = SimpleView::ViewBuilder.view_for UIView, CGRectMake(0, 0, 320, 480), top: 10, bottom: 20
+        view.height.should == 450
+      end
+    end
+
     describe "#backgroundColor" do
       it "should set backgroundColor by HTML code" do
         view = SimpleView::ViewBuilder.view_for(UIView, backgroundColor: "#f00")

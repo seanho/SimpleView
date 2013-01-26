@@ -17,7 +17,7 @@ class UserInfoController < UIViewController
 
       table_view style: UITableViewStyleGrouped,
         delegate: controller, dataSource: controller,
-        top: 0, left: 0, bottom: 0, right: 0 do |table_view|
+        width: 100.percent, height: 100.percent do |table_view|
 
         table_view.tableHeaderView = UserInfoHeader.alloc.initWithFrame [[0, 0], [view.width, 80]]
       end

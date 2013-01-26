@@ -71,6 +71,28 @@ module SimpleView
         max_width = bounds.size.width
         max_height = bounds.size.height
 
+        if width.nil?
+          self.width = 0.0
+        elsif width > 0 && width <= 1
+          if right.nil?
+            self.left ||= 0
+            self.right = max_width - max_width * width
+          else
+            self.left = max_width - max_width * width
+          end
+        end
+
+        if height.nil?
+          self.height = 0.0
+        elsif height > 0 && height <= 1
+          if bottom.nil?
+            self.top ||= 0
+            self.bottom = max_height - max_height * height
+          else
+            self.top = max_height - max_height * height
+          end
+        end
+
         @view.autoresizingMask = UIViewAutoresizingNone
         @view.autoresizingMask |= UIViewAutoresizingFlexibleTopMargin if top.nil?
         @view.autoresizingMask |= UIViewAutoresizingFlexibleLeftMargin if left.nil?

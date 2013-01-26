@@ -14,7 +14,7 @@ class SimpleViewController < UIViewController
     setup view, controller: self do
       controller.title = 'Demo'
 
-      table_view delegate: controller, dataSource: controller, top: 0, left: 0, bottom: 0, right: 0 do
+      table_view delegate: controller, dataSource: controller, width: 100.percent, height: 100.percent do
         view.registerClass UITableViewCell, forCellReuseIdentifier: DEFAULT_CELL_ID
       end
     end
