@@ -15,9 +15,14 @@ module SimpleView
     end
 
     def add klass, options = {}, &block
+      subview = create klass, options, &block
+      view.addSubview(subview) unless view.nil?
+      subview
+    end
+
+    def create klass, options = {}, &block
       bounds = view.nil? ? CGRectZero : view.bounds
       subview = ViewBuilder.view_for klass, bounds, options
-      view.addSubview(subview) unless view.nil?
 
       if block_given?
         child_layout = ViewProxy.new subview, locals
@@ -27,9 +32,9 @@ module SimpleView
       subview
     end
 
-    [::UIActionSheet, ::UIActivityIndicatorView, ::UIButton, ::UIDatePicker, ::UIImageView, ::UILabel, ::UIPageControl,
-      ::UIPickerView, ::UIProgressView, ::UIScrollView, ::UISearchBar, ::UISegmentedControl, ::UISlider,
-      ::UIStepper, ::UISwitch, ::UITabBar, ::UITableView, ::UITableViewCell, ::UITextField, ::UITextView,
+    [::UIActionSheet, ::UIActivityIndicatorView, ::UIButton, ::UIDatePicker, ::UIImageView, ::UILabel,
+      ::UIPageControl, ::UIPickerView, ::UIProgressView, ::UIScrollView, ::UISearchBar, ::UISegmentedControl,
+      ::UISlider, ::UIStepper, ::UISwitch, ::UITabBar, ::UITableView, ::UITableViewCell, ::UITextField, ::UITextView,
       ::UIToolbar, ::UIWebView].each do |klass|
       shorthand = "#{klass}"[2..-1].underscore.to_sym
       define_method(shorthand) do |*args, &block|
