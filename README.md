@@ -33,7 +33,7 @@ class YourViewController < UIViewController
 
   def viewDidLoad
     setup content_view do
-      label top:0, left: 0, width: 200, height: 20, text: "Choose your lucky word", color: "#eee"
+      label top:0, left: 0, width: 200, height: 20, text: "Choose your lucky word", text_color: "#eee"
       image_view top: 50, left: 50, right: 50, image: "sample.jpg"
       toolbar left: 0, right: 0, bottom: 0
     end
@@ -46,8 +46,8 @@ Use block for more control over the view instance
 ````ruby
 def viewDidLoad
   setup view do
-    button tint_color: '#f00' do
-      view.setTitle "Submit" forState: UIControlStateNormal
+    button tint_color: '#f00' do |button|
+      button.setTitle "Submit" forState: UIControlStateNormal
     end
   end
 end
@@ -61,7 +61,7 @@ SimpleView provides shorthand methods for most UIKit classes
 def viewDidLoad
   setup view do
     label text: 'Hi there!' # shorthand
-    add UILabel, text: 'Hi there!' # what actually happens
+    add UILabel, text: 'Hi there!' # same as above
   end
 end
 ````
@@ -152,13 +152,19 @@ class ViewController
 end
 ````
 
-### View anchoring
+### View positioning and sizing
 
 Position the view without doing a lot of calculation
 
 ````ruby
 setup view do
   toolbar bottom: 10, left: 10, right: 10
+end
+````
+
+````ruby
+setup view do
+  table_view width: 100.percent, height: 100.percent
 end
 ````
 
