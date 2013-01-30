@@ -1,9 +1,5 @@
-module SimpleView
-  module UIFontExtensions
-    def to_font
-      self
-    end
+class UIFont
+  def to_font
+    self
   end
 end
-
-UIFont.send(:include, SimpleView::UIFontExtensions)

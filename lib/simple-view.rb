@@ -5,6 +5,5 @@ unless defined?(Motion::Project::Config)
 end
 
 Motion::Project::App.setup do |app|
-  app.files.unshift(Dir.glob(File.join(File.dirname(__FILE__), 'simple_view/*.rb')))
-  app.files.unshift(Dir.glob(File.join(File.dirname(__FILE__), 'simple_view/extensions/*.rb')))
+  app.files.unshift(Dir.glob(File.join(File.dirname(__FILE__), 'simple_view/**/*.rb')))
 end

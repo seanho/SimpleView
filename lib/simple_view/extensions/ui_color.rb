@@ -1,9 +1,5 @@
-module SimpleView
-  module UIColorExtensions
-    def to_color
-      self
-    end
+class UIColor
+  def to_color
+    self
   end
 end
-
-UIColor.send(:include, SimpleView::UIColorExtensions)

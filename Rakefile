@@ -8,7 +8,5 @@ Motion::Project::App.setup do |app|
   app.name = 'SimpleViewDemo'
   app.deployment_target = '5.0'
 
-  app.detect_dependencies = false
-  app.files.unshift(Dir.glob(File.join(File.dirname(__FILE__), 'lib/simple_view/*.rb')))
-  app.files.unshift(Dir.glob(File.join(File.dirname(__FILE__), 'lib/simple_view/extensions/*.rb')))
+  app.files.unshift(Dir.glob('./lib/simple_view/**/*.rb'))
 end
