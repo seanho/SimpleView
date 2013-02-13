@@ -2,13 +2,13 @@ class ViewAnchoringController < UIViewController
   include SimpleView::Layout
 
   def viewDidLoad
+    self.title = "View Anchoring"
+
     SimpleView::Styles.define :square,
       width: 20,
       height: 20
 
-    setup view, controller: self do
-      controller.title = "View Anchoring"
-
+    setup view do
       rect name: 'fill', styles: :square, backgroundColor: "#000", top: 0, left: 0, bottom: 0, right: 0
 
       rect name: 'tl', styles: :square, backgroundColor: "#990000", top: 0, left: 0

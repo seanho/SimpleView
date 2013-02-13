@@ -2,7 +2,37 @@
 
 RubyMotion DSL for UIKit.
 
-Demo app: [Currency](https://github.com/seanho/CurrencyApp-RubyMotion)
+## Change log
+
+__Version 0.6__
+
+Breaking changes:
+
+Block scoping is removed, i.e. no need to pass in locals.
+
+Previous
+````ruby
+class ViewController
+  def viewDidLoad
+    setup view, controller: self do
+      table_view delegate: controller, dataSource: controller
+    end
+  end
+end
+````
+
+Now
+````ruby
+class ViewController
+  def viewDidLoad
+    setup view do
+      table_view delegate: self, dataSource: self
+    end
+  end
+end
+````
+
+`add` is renamed to `add_view` for clarity.
 
 ## Installation
 
@@ -61,7 +91,7 @@ SimpleView provides shorthand methods for most UIKit classes
 def viewDidLoad
   setup view do
     label text: 'Hi there!' # shorthand
-    add UILabel, text: 'Hi there!' # same as above
+    add_view UILabel, text: 'Hi there!' # same as above
   end
 end
 ````
@@ -96,7 +126,7 @@ SimpleView can work with any custom views and controls
 
 ````ruby
 setup view do
-  add CustomViewClass, name: "custom_view"...
+  add_view CustomViewClass, name: "custom_view"...
 end
 ````
 
@@ -165,22 +195,6 @@ end
 ````ruby
 setup view do
   table_view width: 100.percent, height: 100.percent
-end
-````
-
-### Passing in locals
-
-Reference to the controller/model or other variables in the setup block
-
-````ruby
-class ViewController
-  include SimpleView::Layout
-
-  def viewDidLoad
-    setup view, controller: self do
-      table_view delegate: controller, dataSource: controller
-    end
-  end
 end
 ````
 

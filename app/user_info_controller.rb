@@ -6,20 +6,20 @@ class UserInfoController < UIViewController
   def viewDidLoad
     super
 
+    self.title = 'User Info'
+
     @data = [
       [{title: 'mobile', text: '123456789'}],
       [{title: 'email', text: 'nyan.cat@meme.com'}],
       [{title: 'Facebook', text: 'Nyan Cat'}]
     ]
 
-    setup view, controller: self do
-      controller.title = 'User Info'
-
+    setup view do
       table_view style: UITableViewStyleGrouped,
-        delegate: controller, dataSource: controller,
-        width: 100.percent, height: 100.percent do |table_view|
+        delegate: self, dataSource: self,
+        width: 100.percent, height: 100.percent do |table|
 
-        table_view.tableHeaderView = UserInfoHeader.alloc.initWithFrame [[0, 0], [view.width, 80]]
+        table.tableHeaderView = UserInfoHeader.alloc.initWithFrame [[0, 0], [view.width, 80]]
       end
     end
   end

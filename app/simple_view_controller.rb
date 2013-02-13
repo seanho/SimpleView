@@ -6,16 +6,16 @@ class SimpleViewController < UIViewController
   def viewDidLoad
     super
 
+    self.title = 'Demo'
+
     @demos = [
       {caption: 'View Anchoring', controller: ViewAnchoringController},
       {caption: 'User Info', controller: UserInfoController}
     ]
 
-    setup view, controller: self do
-      controller.title = 'Demo'
-
-      table_view delegate: controller, dataSource: controller, width: 100.percent, height: 100.percent do
-        view.registerClass UITableViewCell, forCellReuseIdentifier: DEFAULT_CELL_ID
+    setup view do
+      table_view delegate: self, dataSource: self, width: 100.percent, height: 100.percent do |table|
+        table.registerClass UITableViewCell, forCellReuseIdentifier: DEFAULT_CELL_ID
       end
     end
   end
