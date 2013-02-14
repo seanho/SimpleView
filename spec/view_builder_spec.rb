@@ -36,6 +36,15 @@ describe "SimpleView::ViewBuilder" do
       end
     end
 
+    describe "#layer" do
+      it "should set layer attributes" do
+        view = SimpleView::ViewBuilder.view_for(UIView, layer: {borderWidth: 12, shadowOffset: CGSizeMake(2, 4)})
+        view.layer.borderWidth.should == 12
+        view.layer.shadowOffset.width.should == 2
+        view.layer.shadowOffset.height.should == 4
+      end
+    end
+
     describe "#backgroundColor" do
       it "should set backgroundColor by HTML code" do
         view = SimpleView::ViewBuilder.view_for(UIView, backgroundColor: "#f00")

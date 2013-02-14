@@ -141,6 +141,7 @@ module SimpleView
       elsif key.end_with?('Image') || key.end_with?('image')
         view.setValue value.to_image, forKey: key
       elsif key == 'layer'
+        convert_primitives_to_objects_in_hash value
         view.layer.setValuesForKeysWithDictionary value
       else
         view.setValue value, forKey: key
