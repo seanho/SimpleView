@@ -1,15 +1,5 @@
 class UIView
-  def name
-    self.accessibilityLabel
-  end
-
-  def name= name
-    self.accessibilityLabel = name
-  end
-
-  def setName name
-    self.name = name
-  end
+  attr_accessor :name
 
   def find name
     subviews.each do |subview|

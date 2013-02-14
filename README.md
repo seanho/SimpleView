@@ -34,8 +34,6 @@ end
 
 `add` is renamed to `add_view` for clarity.
 
-UIView#name is now an alias to UIView#accessibilityLabel
-
 ## Installation
 
 Add the gem to your Gemfile
