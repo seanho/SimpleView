@@ -1,7 +1,5 @@
 module SimpleView
   module Layout
-    extend self
-
     def setup view, &block
       view_stack.push view
       block.call if block_given?

@@ -4,7 +4,7 @@ RubyMotion DSL for UIKit.
 
 ## Change log
 
-__Version 0.6__
+__Version 0.6.x__
 
 Breaking changes:
 
@@ -33,6 +33,8 @@ end
 ````
 
 `add` is renamed to `add_view` for clarity.
+
+UIView#name is now an alias to UIView#accessibilityLabel
 
 ## Installation
 
