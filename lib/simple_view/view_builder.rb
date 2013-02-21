@@ -1,7 +1,6 @@
 module SimpleView
   class ViewBuilder
     attr_reader :view
-    attr_accessor :top, :left, :bottom, :right, :width, :height
 
     # first args (optional): bounds
     # second args (optional): options
@@ -17,13 +16,13 @@ module SimpleView
         options = args.size > 1 ? args[1] : {}
       end
 
-      builder = ViewBuilder.new klass, options
-      builder.size_within bounds
+      builder = ViewBuilder.new klass, bounds, options
       builder.view
     end
 
-    def initialize klass, options = {}
+    def initialize klass, bounds = CGRectZero, options = {}
       options = extended_options_with_style klass, options
+      calculate_frame_for bounds, options
       convert_primitives_to_objects_in_hash options
 
       @view = view_for_class klass, klass, options
@@ -62,44 +61,50 @@ module SimpleView
       end
     end
 
-    def size_within bounds
-      frame = @view.frame
+    def calculate_frame_for bounds, options = {}
+      width   = options.delete(:width)
+      height  = options.delete(:height)
+      top     = options.delete(:top)
+      right   = options.delete(:right)
+      bottom  = options.delete(:bottom)
+      left    = options.delete(:left)
 
       if width.nil? && height.nil? && right.nil? && bottom.nil?
-        @view.sizeToFit
+        options[:frame] = CGRectZero
       else
+        frame = CGRectZero
         max_width = bounds.size.width
         max_height = bounds.size.height
 
         if width.nil?
-          self.width = 0.0
+          width = 0.0
         elsif width > 0 && width <= 1
           if right.nil?
-            self.left ||= 0
-            self.right = max_width - max_width * width
+            left ||= 0
+            right = max_width - max_width * width
           else
-            self.left = max_width - max_width * width
+            left = max_width - max_width * width
           end
         end
 
         if height.nil?
-          self.height = 0.0
+          height = 0.0
         elsif height > 0 && height <= 1
           if bottom.nil?
-            self.top ||= 0
-            self.bottom = max_height - max_height * height
+            top ||= 0
+            bottom = max_height - max_height * height
           else
-            self.top = max_height - max_height * height
+            top = max_height - max_height * height
           end
         end
 
-        @view.autoresizingMask = UIViewAutoresizingNone
-        @view.autoresizingMask |= UIViewAutoresizingFlexibleTopMargin if top.nil?
-        @view.autoresizingMask |= UIViewAutoresizingFlexibleLeftMargin if left.nil?
-        @view.autoresizingMask |= UIViewAutoresizingFlexibleBottomMargin if bottom.nil?
-        @view.autoresizingMask |= UIViewAutoresizingFlexibleRightMargin if right.nil?
-        @view.autoresizingMask |= UIViewAutoresizingFlexibleWidth if !left.nil? && !right.nil?
-        @view.autoresizingMask |= UIViewAutoresizingFlexibleHeight if !top.nil? && !bottom.nil?
+        mask = UIViewAutoresizingNone
+        mask |= UIViewAutoresizingFlexibleTopMargin if top.nil?
+        mask |= UIViewAutoresizingFlexibleLeftMargin if left.nil?
+        mask |= UIViewAutoresizingFlexibleBottomMargin if bottom.nil?
+        mask |= UIViewAutoresizingFlexibleRightMargin if right.nil?
+        mask |= UIViewAutoresizingFlexibleWidth if !left.nil? && !right.nil?
+        mask |= UIViewAutoresizingFlexibleHeight if !top.nil? && !bottom.nil?
 
         if !left.nil? && !right.nil?
           frame.origin.x = left
@@ -129,7 +134,8 @@ module SimpleView
           frame.size.height = height
         end
 
-        @view.frame = frame
+        options[:frame] = frame
+        options[:autoresizingMask] = mask
       end
     end
 
